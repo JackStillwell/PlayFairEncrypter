@@ -8,6 +8,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class EncryptionMatrixMkII {
@@ -15,7 +16,7 @@ public class EncryptionMatrixMkII {
     /* TODO: CATCH AND LOG ASSERTION ERRORS */
     /* TODO: ADD ASSERTIONS WHERE ANY BREAK POSSIBLE */
 
-    static final int __GRIDSIZE__ = 15;
+    public static final int __GRIDSIZE__ = 15;
 
     /* employs the FourSquare Encryption Technique */
     public ArrayList<Integer> encrypt(
@@ -73,9 +74,9 @@ public class EncryptionMatrixMkII {
     */
     public ArrayList<Integer> xorCipher(
                                 String password,
-                                ArrayList<Integer> inputArray)
+                                List<Integer> inputArray)
     {
-        ArrayList<Integer> asciiArray = EncryptionUtilities.StringToAsciiArray(password);
+        List<Integer> asciiArray = EncryptionUtilities.StringToAsciiArray(password);
         StringBuilder passwordNumString = new StringBuilder();
 
         for(int i : asciiArray)
@@ -91,7 +92,7 @@ public class EncryptionMatrixMkII {
 
         for(int i = 0; i < inputArray.size(); i++)
         {
-            passwordArray.add(passwordSeedGenerator.nextInt(1));
+            passwordArray.add(passwordSeedGenerator.nextInt(2));
         }
 
         ArrayList<Integer> outputArray = new ArrayList<>();
@@ -104,5 +105,55 @@ public class EncryptionMatrixMkII {
         }
 
         return outputArray;
+    }
+
+    public List<List<Integer>> keyFileGenerator(int numberToGenerate)
+    {
+        Random randomCountGenerator = new Random();
+
+        long randomSeed = -1;
+
+        while(randomSeed < 0)
+        {
+            for (int i = 0; i < randomCountGenerator.nextInt(100); i++) {
+                Random loopGenerator = new Random();
+
+                randomSeed = loopGenerator.nextLong();
+            }
+        }
+
+        Random reallyRandomGenerator = new Random(randomSeed);
+
+        List<Integer> choices = new ArrayList<>();
+        List<Integer> currentChoices = new ArrayList<>();
+
+        for(int i = 0; i < 256; i++)
+        {
+            choices.add(i);
+        }
+
+        List<Integer> key = new ArrayList<>();
+        List<List<Integer>> keyFile = new ArrayList<>();
+
+        for(int i = 0; i < numberToGenerate; i++)
+        {
+            key.clear();
+            currentChoices.addAll(choices);
+
+            // build key
+            for(int j = 256; j > 0; j--)
+            {
+                int position = reallyRandomGenerator.nextInt(j);
+
+                key.add(currentChoices.get(position));
+
+                currentChoices.remove(position);
+            }
+
+            // add key to list
+            keyFile.add(key);
+        }
+
+        return keyFile;
     }
 }

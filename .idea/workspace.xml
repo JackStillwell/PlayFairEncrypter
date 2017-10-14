@@ -12,26 +12,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="EncryptionMatrixMkII.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EncryptionMatrixMkII.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/EncryptionMatrixMkII.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="30" lean-forward="false" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+            <state relative-caret-position="758">
+              <caret line="156" column="22" lean-forward="false" selection-start-line="156" selection-start-column="22" selection-end-line="156" selection-end-column="22" />
               <folding>
-                <element signature="e#0#3006#0" expanded="true" />
+                <element signature="e#0#4298#0" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EncryptionUtilities.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EncryptionUtilities.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/EncryptionUtilities.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="31" column="43" lean-forward="false" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
+            <state relative-caret-position="788">
+              <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
               <folding>
-                <element signature="e#0#2179#0" expanded="true" />
+                <element signature="e#0#3737#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -49,17 +50,19 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>7</find>
+      <find>ArrayList</find>
     </findStrings>
     <replaceStrings>
       <replace>__GRIDSIZE__</replace>
+      <replace>List</replace>
     </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/EncryptionMatrix.java" />
-        <option value="$PROJECT_DIR$/src/EncryptionMatrixMkII.java" />
         <option value="$PROJECT_DIR$/src/AsciiPair.java" />
+        <option value="$PROJECT_DIR$/src/EncryptionMatrixMkII.java" />
         <option value="$PROJECT_DIR$/src/EncryptionUtilities.java" />
       </list>
     </option>
@@ -213,12 +216,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1507917852115</updated>
-      <workItem from="1507917856740" duration="12087000" />
+      <workItem from="1507917856740" duration="18902000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12087000" />
+    <option name="totallyTimeSpent" value="18902000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="964" height="1039" extended-state="0" />
@@ -279,16 +282,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/EncryptionUtilities.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="31" column="43" lean-forward="false" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#2179#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/EncryptionMatrix.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -299,10 +292,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/EncryptionMatrixMkII.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="30" lean-forward="false" selection-start-line="26" selection-start-column="30" selection-end-line="26" selection-end-column="30" />
+        <state relative-caret-position="758">
+          <caret line="156" column="22" lean-forward="false" selection-start-line="156" selection-start-column="22" selection-end-line="156" selection-end-column="22" />
           <folding>
-            <element signature="e#0#3006#0" expanded="true" />
+            <element signature="e#0#4298#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/EncryptionUtilities.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="788">
+          <caret line="159" column="0" lean-forward="false" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#3737#0" expanded="true" />
             <element signature="imports" expanded="true" />
           </folding>
         </state>

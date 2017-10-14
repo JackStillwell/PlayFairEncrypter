@@ -7,15 +7,20 @@
 
  */
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 
 public class EncryptionUtilities {
 
     /* Converts a string to an Ascii Array */
-    public static ArrayList<Integer> StringToAsciiArray(String input) {
+    public static List<Integer> StringToAsciiArray(String input) {
         assert input != null;
 
-        ArrayList<Integer> asciiArray = new ArrayList<>();
+        List<Integer> asciiArray = new ArrayList<>();
 
         for (char c : input.toCharArray()) {
             asciiArray.add(((int) c));
@@ -24,6 +29,17 @@ public class EncryptionUtilities {
         return asciiArray;
     }
 
+    public static String AsciiArrayToString(List<Integer> input)
+    {
+        StringBuilder output = new StringBuilder();
+
+        for (int num : input)
+        {
+            output.append((char) num);
+        }
+
+        return output.toString();
+    }
 
     /*
 
@@ -32,14 +48,14 @@ public class EncryptionUtilities {
         Accounts for uneven amounts of Ascii
 
     */
-    public static ArrayList<AsciiPair>
-    AsciiArrayToAsciiPairArray(ArrayList<Integer> input) {
+    public static List<AsciiPair>
+    AsciiArrayToAsciiPairArray(List<Integer> input) {
         if (input.size() % 2 != 0) {
             // TODO: Deal with uneven amount of integers by adding something
             // NOTE: Whatever is added will need to be dealt with upon decryption
         }
 
-        ArrayList<AsciiPair> asciiPairArray = new ArrayList<>();
+        List<AsciiPair> asciiPairArray = new ArrayList<>();
 
         for (int i = 0; i < (input.size() / 2); i++) {
             asciiPairArray.add(
@@ -50,9 +66,9 @@ public class EncryptionUtilities {
         return asciiPairArray;
     }
 
-    public static ArrayList<Integer> asciiArrayToBinaryArray(ArrayList<Integer> asciiArray)
+    public static List<Integer> asciiArrayToBinaryArray(List<Integer> asciiArray)
     {
-        ArrayList<Integer> binaryArray = new ArrayList<>();
+        List<Integer> binaryArray = new ArrayList<>();
 
         for(int i : asciiArray)
         {
@@ -62,9 +78,37 @@ public class EncryptionUtilities {
         return binaryArray;
     }
 
-    public static ArrayList<Integer> asciiTo8BitBinary(int num)
+    /*
+
+        Converts a Binary Array to an Ascii Array
+
+        Accounts for binary not divisible by 8
+
+    */
+    public static List<Integer> binaryArrayToAsciiArray(List<Integer> binaryArray)
     {
-        ArrayList<Integer> eightBit = new ArrayList<>();
+        if(binaryArray.size() % 8 != 0)
+        {
+            // TODO: DEAL WITH BINARY ARRAY NOT DIVISIBLE BY 8
+        }
+
+        List<Integer> asciiArray = new ArrayList<>();
+
+        for(int i = 1; i < (binaryArray.size()/8); i++)
+        {
+            asciiArray.add(
+                    eightBitBinaryToAscii(
+                            binaryArray.subList(((i-1)*8), (i*8))
+                    )
+            );
+        }
+
+        return asciiArray;
+    }
+
+    public static List<Integer> asciiTo8BitBinary(int num)
+    {
+        List<Integer> eightBit = new ArrayList<>();
 
         while(num>0)
         {
@@ -82,15 +126,35 @@ public class EncryptionUtilities {
         return eightBit;
     }
 
-    public static Integer eightBitBinarytoAscii(ArrayList<Integer> eightBitBinary)
+    public static Integer eightBitBinaryToAscii(List<Integer> eightBitBinary)
     {
         int ascii = 0;
 
         for(int i = 0; i < eightBitBinary.size(); i++)
         {
-            ascii += (eightBitBinary.get(i) * (8-i));
+            ascii += (eightBitBinary.get(i) * (Math.pow(2, (8-i))));
         }
 
         return ascii;
+    }
+
+    public static int[][] GridBuilder(List<Integer> input)
+    {
+        //TODO: catch assertion failure and log message
+        assert input.size() == 256;
+
+        int gridsize = EncryptionMatrixMkII.__GRIDSIZE__;
+        int[][] grid = new int[gridsize][gridsize];
+
+        int masterCount = 0;
+
+        for (int i = 0; i < gridsize; i++) {
+            for (int j = 0; j < gridsize; j++) {
+                grid[i][i] = input.get(masterCount);
+                masterCount++;
+            }
+        }
+
+        return grid;
     }
 }
