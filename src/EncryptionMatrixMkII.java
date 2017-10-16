@@ -18,14 +18,14 @@ public class EncryptionMatrixMkII {
 
     public static final int __GRIDSIZE__ = 15;
 
-    /* employs the FourSquare Encryption Technique */
-    public ArrayList<Integer> encrypt(
-                                ArrayList<AsciiPair> input,
+    /* employs the a Playfair-FourSquare Encryption Technique */
+    public static List<AsciiPair> playfairFoursquareCipher(
+                                List<AsciiPair> input,
                                 int[][] alphabet,
                                 int[][] key1,
                                 int[][] key2)
     {
-        ArrayList<Integer> output = new ArrayList<>();
+        List<AsciiPair> output = new ArrayList<>();
 
         for (AsciiPair anInput : input) {
             Integer letter1 = anInput.one;
@@ -53,11 +53,36 @@ public class EncryptionMatrixMkII {
             int encryptedLetter1 = key1[letter2Row][letter1Column];
             int encryptedLetter2 = key2[letter1Row][letter2Column];
 
-            output.add(encryptedLetter1);
-            output.add(encryptedLetter2);
+            output.add(new AsciiPair(encryptedLetter1,encryptedLetter2));
         }
 
         return output;
+    }
+
+    public List<AsciiPair> cyclePlayFairFoursquareCipher(
+            List<AsciiPair> asciiArray,
+            List<List<Integer>> keyArray)
+    {
+        int[][] standardGrid = EncryptionUtilities
+                                .asciiArrayToIntGrid(
+                                        EncryptionUtilities.standardAsciiArray()
+                                );
+        List<AsciiPair> encryptedArray = asciiArray;
+
+        for(int i = 0; i < ((keyArray.size())/2); i++)
+        {
+            int[][] key1 = EncryptionUtilities
+                            .asciiArrayToIntGrid(keyArray.get(i*2));
+            int[][] key2 = EncryptionUtilities
+                            .asciiArrayToIntGrid(keyArray.get((i*2)+1));
+            encryptedArray = playfairFoursquareCipher(
+                    encryptedArray,
+                    standardGrid,
+                    key1,
+                    key2);
+        }
+
+        return encryptedArray;
     }
 
     /*
@@ -72,7 +97,7 @@ public class EncryptionMatrixMkII {
 
         encryption and decryption are the same operation!
     */
-    public ArrayList<Integer> xorCipher(
+    public static ArrayList<Integer> xorCipher(
                                 String password,
                                 List<Integer> inputArray)
     {
@@ -107,7 +132,7 @@ public class EncryptionMatrixMkII {
         return outputArray;
     }
 
-    public List<List<Integer>> keyFileGenerator(int numberToGenerate)
+    public static List<List<Integer>> keyFileGenerator(int numberToGenerate)
     {
         Random randomCountGenerator = new Random();
 

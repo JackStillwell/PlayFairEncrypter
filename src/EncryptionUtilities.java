@@ -7,12 +7,10 @@
 
  */
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.List;
+import java.io.*;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EncryptionUtilities {
 
@@ -29,12 +27,10 @@ public class EncryptionUtilities {
         return asciiArray;
     }
 
-    public static String AsciiArrayToString(List<Integer> input)
-    {
+    public static String AsciiArrayToString(List<Integer> input) {
         StringBuilder output = new StringBuilder();
 
-        for (int num : input)
-        {
+        for (int num : input) {
             output.append((char) num);
         }
 
@@ -66,12 +62,10 @@ public class EncryptionUtilities {
         return asciiPairArray;
     }
 
-    public static List<Integer> asciiArrayToBinaryArray(List<Integer> asciiArray)
-    {
+    public static List<Integer> asciiArrayToBinaryArray(List<Integer> asciiArray) {
         List<Integer> binaryArray = new ArrayList<>();
 
-        for(int i : asciiArray)
-        {
+        for (int i : asciiArray) {
             binaryArray.addAll(asciiTo8BitBinary(asciiArray.get(i)));
         }
 
@@ -85,20 +79,17 @@ public class EncryptionUtilities {
         Accounts for binary not divisible by 8
 
     */
-    public static List<Integer> binaryArrayToAsciiArray(List<Integer> binaryArray)
-    {
-        if(binaryArray.size() % 8 != 0)
-        {
+    public static List<Integer> binaryArrayToAsciiArray(List<Integer> binaryArray) {
+        if (binaryArray.size() % 8 != 0) {
             // TODO: DEAL WITH BINARY ARRAY NOT DIVISIBLE BY 8
         }
 
         List<Integer> asciiArray = new ArrayList<>();
 
-        for(int i = 1; i < (binaryArray.size()/8); i++)
-        {
+        for (int i = 1; i < (binaryArray.size() / 8); i++) {
             asciiArray.add(
                     eightBitBinaryToAscii(
-                            binaryArray.subList(((i-1)*8), (i*8))
+                            binaryArray.subList(((i - 1) * 8), (i * 8))
                     )
             );
         }
@@ -106,40 +97,34 @@ public class EncryptionUtilities {
         return asciiArray;
     }
 
-    public static List<Integer> asciiTo8BitBinary(int num)
-    {
+    public static List<Integer> asciiTo8BitBinary(int num) {
         List<Integer> eightBit = new ArrayList<>();
 
-        while(num>0)
-        {
-            eightBit.add(0, num%2);
-            num=num/2;
+        while (num > 0) {
+            eightBit.add(0, num % 2);
+            num = num / 2;
         }
 
         int zerosNeeded = 8 - eightBit.size();
 
-        for(int i=zerosNeeded; i>0; i--)
-        {
+        for (int i = zerosNeeded; i > 0; i--) {
             eightBit.add(0, 0);
         }
 
         return eightBit;
     }
 
-    public static Integer eightBitBinaryToAscii(List<Integer> eightBitBinary)
-    {
+    public static Integer eightBitBinaryToAscii(List<Integer> eightBitBinary) {
         int ascii = 0;
 
-        for(int i = 0; i < eightBitBinary.size(); i++)
-        {
-            ascii += (eightBitBinary.get(i) * (Math.pow(2, (8-i))));
+        for (int i = 0; i < eightBitBinary.size(); i++) {
+            ascii += (eightBitBinary.get(i) * (Math.pow(2, (8 - i))));
         }
 
         return ascii;
     }
 
-    public static int[][] GridBuilder(List<Integer> input)
-    {
+    public static int[][] asciiArrayToIntGrid(List<Integer> input) {
         //TODO: catch assertion failure and log message
         assert input.size() == 256;
 
@@ -156,5 +141,39 @@ public class EncryptionUtilities {
         }
 
         return grid;
+    }
+
+    public static List<Integer> standardAsciiArray() {
+        List<Integer> standard = new ArrayList<>();
+
+        for (int i = 0; i < 256; i++) {
+            standard.add(i);
+        }
+
+        return standard;
+    }
+
+    public void writeTextFile(String input, String filename) throws IOException {
+
+        FileWriter fileWriter = new FileWriter(filename);
+
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        bufferedWriter.write(input);
+
+        bufferedWriter.close();
+    }
+
+    public void writeBinaryFile(List<Integer> binary, String filename) throws IOException {
+
+        FileOutputStream outputStream = new FileOutputStream(filename + ".dpfe");
+
+        ByteBuffer bytes = ByteBuffer.allocate(binary.size());
+
+        for (int i : binary) {
+            bytes.putInt(i);
+        }
+
+
     }
 }
