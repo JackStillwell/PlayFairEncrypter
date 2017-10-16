@@ -59,7 +59,7 @@ public class EncryptionMatrixMkII {
         return output;
     }
 
-    public static List<AsciiPair> cyclePlayFairFoursquareCipher(
+    public List<AsciiPair> cyclePlayFairFoursquareCipher(
             List<AsciiPair> asciiArray,
             List<List<Integer>> keyArray)
     {

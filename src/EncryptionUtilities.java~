@@ -62,18 +62,6 @@ public class EncryptionUtilities {
         return asciiPairArray;
     }
 
-    public static List<Integer> asciiPairArrayToAsciiArray(List<AsciiPair> asciiPairArray)
-    {
-	    List<Integer> asciiArray = new ArrayList();
-	    for(AsciiPair ap : asciiPairArray)
-	    {
-	    	asciiArray.add(ap.one);
-		asciiArray.add(ap.two);
-	    }
-
-	    return asciiArray;
-    }
-
     public static List<Integer> asciiArrayToBinaryArray(List<Integer> asciiArray) {
         List<Integer> binaryArray = new ArrayList<>();
 

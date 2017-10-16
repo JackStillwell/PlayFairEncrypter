@@ -32,7 +32,7 @@ public class MainWindow
 		    System.out.println(a);
 	    }
 
-            String toEncrypt = args[0];
+            String toEncrypt = args[1];
 
             List<Integer> asciiArray = EncryptionUtilities
                                         .StringToAsciiArray(toEncrypt);
@@ -42,7 +42,7 @@ public class MainWindow
 
             // Multiply desired levels of encryption by 2 to obtain enough keys
             List<List<Integer>> keys = EncryptionMatrixMkII
-                                        .keyFileGenerator(Integer.parseInt(args[1])*2);
+                                        .keyFileGenerator(Integer.parseInt(args[2])*2);
 
 	    List<AsciiPair> encryptedAsciiPairArray = EncryptionMatrixMkII
 		    					.cyclePlayFairFoursquareCipher(
