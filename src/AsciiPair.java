@@ -8,4 +8,11 @@ public class AsciiPair
         one = _one;
         two = _two;
     }
+
+    public String toString()
+    {
+	String toReturn = one + ":" + two;
+
+	return toReturn;
+    }
 }

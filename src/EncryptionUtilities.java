@@ -55,7 +55,7 @@ public class EncryptionUtilities {
 
         for (int i = 0; i < (input.size() / 2); i++) {
             asciiPairArray.add(
-                    new AsciiPair(input.get(((i * 2) - 1)), input.get(i * 2))
+                    new AsciiPair(input.get((i * 2)), input.get((i * 2) + 1))
             );
         }
 
@@ -147,7 +147,7 @@ public class EncryptionUtilities {
 
         for (int i = 0; i < gridsize; i++) {
             for (int j = 0; j < gridsize; j++) {
-                grid[i][i] = input.get(masterCount);
+                grid[i][j] = input.get(masterCount);
                 masterCount++;
             }
         }
@@ -187,5 +187,18 @@ public class EncryptionUtilities {
         }
 
 
+    }
+
+    public static void printGridToCommandLine(int[][] grid)
+    {
+    	for(int i = 0; i < EncryptionMatrixMkII.__GRIDSIZE__; i++)
+	{
+    		for(int j = 0; j < EncryptionMatrixMkII.__GRIDSIZE__; j++)
+		{
+			System.out.print(grid[i][j] + " ");
+		}
+
+		System.out.println();
+	}
     }
 }

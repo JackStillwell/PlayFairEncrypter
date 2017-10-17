@@ -16,7 +16,7 @@ public class EncryptionMatrixMkII {
     /* TODO: CATCH AND LOG ASSERTION ERRORS */
     /* TODO: ADD ASSERTIONS WHERE ANY BREAK POSSIBLE */
 
-    public static final int __GRIDSIZE__ = 15;
+    public static final int __GRIDSIZE__ = 16;
 
     /* employs the a Playfair-FourSquare Encryption Technique */
     public static List<AsciiPair> playfairFoursquareCipher(
@@ -30,6 +30,12 @@ public class EncryptionMatrixMkII {
         for (AsciiPair anInput : input) {
             Integer letter1 = anInput.one;
             Integer letter2 = anInput.two;
+
+	    //DEBUG
+	    System.out.println("Letter 1: " + letter1);
+	    System.out.println("Letter 2: " + letter2);
+
+	    //EncryptionUtilities.printGridToCommandLine(alphabet);
 
             int letter1Row = -1;
             int letter1Column = -1;
