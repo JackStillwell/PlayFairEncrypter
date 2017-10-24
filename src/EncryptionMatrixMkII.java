@@ -23,17 +23,14 @@ public class EncryptionMatrixMkII {
                                 List<AsciiPair> input,
                                 int[][] alphabet,
                                 int[][] key1,
-                                int[][] key2)
+                                int[][] key2,
+                                boolean encrypt)
     {
         List<AsciiPair> output = new ArrayList<>();
 
         for (AsciiPair anInput : input) {
             Integer letter1 = anInput.one;
             Integer letter2 = anInput.two;
-
-	    //DEBUG
-	    System.out.println("Letter 1: " + letter1);
-	    System.out.println("Letter 2: " + letter2);
 
 	    //EncryptionUtilities.printGridToCommandLine(alphabet);
 
@@ -42,22 +39,54 @@ public class EncryptionMatrixMkII {
             int letter2Row = -1;
             int letter2Column = -1;
 
-            for (int j = 0; j < __GRIDSIZE__; j++) {
-                for (int k = 0; k < __GRIDSIZE__; k++) {
-                    if (alphabet[j][k] == (letter1)) {
-                        letter1Row = j;
-                        letter1Column = k;
-                    }
+            if(encrypt)
+            {
+                for (int j = 0; j < __GRIDSIZE__; j++) {
+                    for (int k = 0; k < __GRIDSIZE__; k++) {
+                        if (alphabet[j][k] == (letter1)) {
+                            letter1Row = j;
+                            letter1Column = k;
+                        }
 
-                    if (alphabet[j][k] == (letter2)) {
-                        letter2Row = j;
-                        letter2Column = k;
+                        if (alphabet[j][k] == (letter2)) {
+                            letter2Row = j;
+                            letter2Column = k;
+                        }
                     }
                 }
             }
 
-            int encryptedLetter1 = key1[letter2Row][letter1Column];
-            int encryptedLetter2 = key2[letter1Row][letter2Column];
+            else
+            {
+                for (int j = 0; j < __GRIDSIZE__; j++) {
+                    for (int k = 0; k < __GRIDSIZE__; k++) {
+                        if (key1[j][k] == (letter1)) {
+                            letter1Row = j;
+                            letter1Column = k;
+                        }
+
+                        if (key2[j][k] == (letter2)) {
+                            letter2Row = j;
+                            letter2Column = k;
+                        }
+                    }
+                }
+            }
+
+
+            int encryptedLetter1;
+            int encryptedLetter2;
+
+            if(encrypt) {
+                encryptedLetter1 = key1[letter2Row][letter1Column];
+                encryptedLetter2 = key2[letter1Row][letter2Column];
+            }
+
+            else
+            {
+                encryptedLetter1 = alphabet[letter2Row][letter1Column];
+                encryptedLetter2 = alphabet[letter1Row][letter2Column];
+            }
 
             output.add(new AsciiPair(encryptedLetter1,encryptedLetter2));
         }
@@ -67,28 +96,52 @@ public class EncryptionMatrixMkII {
 
     public static List<AsciiPair> cyclePlayFairFoursquareCipher(
             List<AsciiPair> asciiArray,
-            List<List<Integer>> keyArray)
+            List<List<Integer>> keyArray,
+            boolean encrypt)
     {
         int[][] standardGrid = EncryptionUtilities
                                 .asciiArrayToIntGrid(
                                         EncryptionUtilities.standardAsciiArray()
                                 );
-        List<AsciiPair> encryptedArray = asciiArray;
+        List<AsciiPair> processedArray = asciiArray;
 
-        for(int i = 0; i < ((keyArray.size())/2); i++)
+        if(encrypt)
         {
-            int[][] key1 = EncryptionUtilities
-                            .asciiArrayToIntGrid(keyArray.get(i*2));
-            int[][] key2 = EncryptionUtilities
-                            .asciiArrayToIntGrid(keyArray.get((i*2)+1));
-            encryptedArray = playfairFoursquareCipher(
-                    encryptedArray,
-                    standardGrid,
-                    key1,
-                    key2);
+            for (int i = 0; i < ((keyArray.size()) / 2); i++) {
+                int[][] key1 = EncryptionUtilities
+                        .asciiArrayToIntGrid(keyArray.get(i * 2));
+                int[][] key2 = EncryptionUtilities
+                        .asciiArrayToIntGrid(keyArray.get((i * 2) + 1));
+                processedArray = playfairFoursquareCipher(
+                        processedArray,
+                        standardGrid,
+                        key1,
+                        key2,
+                        encrypt);
+
+                System.out.println(processedArray);
+            }
         }
 
-        return encryptedArray;
+        else
+        {
+            for(int i = ((keyArray.size()/2)-1); i >= 0; i--) {
+                int[][] key1 = EncryptionUtilities
+                        .asciiArrayToIntGrid(keyArray.get(i * 2));
+                int[][] key2 = EncryptionUtilities
+                        .asciiArrayToIntGrid(keyArray.get((i * 2) + 1));
+                processedArray = playfairFoursquareCipher(
+                        processedArray,
+                        standardGrid,
+                        key1,
+                        key2,
+                        encrypt);
+
+                System.out.println(processedArray);
+            }
+        }
+
+        return processedArray;
     }
 
     /*
@@ -163,13 +216,12 @@ public class EncryptionMatrixMkII {
             choices.add(i);
         }
 
-        List<Integer> key = new ArrayList<>();
         List<List<Integer>> keyFile = new ArrayList<>();
 
         for(int i = 0; i < numberToGenerate; i++)
         {
-            key.clear();
             currentChoices.addAll(choices);
+            List<Integer> key = new ArrayList<>();
 
             // build key
             for(int j = 256; j > 0; j--)

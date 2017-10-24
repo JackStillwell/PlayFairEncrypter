@@ -14,6 +14,8 @@ import java.util.List;
 
 public class MainWindow
 {
+    static final boolean DEBUG = true;
+
     private Component createComponents()
     {
         JPanel master = new JPanel();
@@ -25,50 +27,72 @@ public class MainWindow
 
     public static void main(String[] args) {
 
-        if(args.length != 1) // handle command line use
+        if(args.length > 1 || DEBUG) // handle command line use
         {
-	    for(String a : args)
-	    {
-		    System.out.println(a);
-	    }
+	    	for(String a : args)
+	    	{
+		    	System.out.println(a);
+	    	}
 
-            String toEncrypt = args[0];
+            String toEncrypt = "hello world!";
 
             List<Integer> asciiArray = EncryptionUtilities
                                         .StringToAsciiArray(toEncrypt);
 
-	    for(int i : asciiArray)
-	    {
-	    	System.out.print(i + " ");
-	    } System.out.println();
+	    	for(int i : asciiArray)
+	    	{
+	    		System.out.print(i + " ");
+	    	} System.out.println();
 
-	    List<AsciiPair> asciiPairArray = EncryptionUtilities
+	    	List<AsciiPair> asciiPairArray = EncryptionUtilities
 		    				.AsciiArrayToAsciiPairArray(asciiArray);
 
-	    for(AsciiPair a : asciiPairArray)
-	    {
-	    	System.out.print(a + " ");
-	    } System.out.println();
+	    	for(AsciiPair a : asciiPairArray)
+	    	{
+	    		System.out.print(a + " ");
+	    	} System.out.println();
 
             // Multiply desired levels of encryption by 2 to obtain enough keys
             List<List<Integer>> keys = EncryptionMatrixMkII
-                                        .keyFileGenerator(Integer.parseInt(args[1])*2);
+                                        .keyFileGenerator(Integer.parseInt("10"));
 
-	    List<AsciiPair> encryptedAsciiPairArray = EncryptionMatrixMkII
+	    	List<AsciiPair> encryptedAsciiPairArray = EncryptionMatrixMkII
 		    					.cyclePlayFairFoursquareCipher(
 								asciiPairArray,
-								keys);
+								keys,
+                                true);
 
-	    List<Integer> encryptedAsciiArray = EncryptionUtilities
+	    	List<Integer> encryptedAsciiArray = EncryptionUtilities
 	    						.asciiPairArrayToAsciiArray(
-								asciiPairArray);
+								encryptedAsciiPairArray);
 
-	    String encrypted = EncryptionUtilities
+	    	String encrypted = EncryptionUtilities
 		    		.AsciiArrayToString(encryptedAsciiArray);
 
-	    System.out.println(encrypted);
+	    	System.out.println(encrypted);
 
-	    return;
+	    	List<Integer> decryptedAsciiArray = EncryptionUtilities
+                    .StringToAsciiArray(encrypted);
+
+	    	List<AsciiPair> decryptedAsciiPairArray = EncryptionUtilities
+                    .AsciiArrayToAsciiPairArray(decryptedAsciiArray);
+
+	    	decryptedAsciiPairArray = EncryptionMatrixMkII
+                    .cyclePlayFairFoursquareCipher(
+                            decryptedAsciiPairArray,
+                            keys,
+                            false
+                    );
+
+	    	String decrypted = EncryptionUtilities
+                    .AsciiArrayToString(
+                            EncryptionUtilities
+                                    .asciiPairArrayToAsciiArray(decryptedAsciiPairArray)
+                    );
+
+	    	System.out.println(decrypted);
+
+	    	return;
         }
 
         JFrame frame = new JFrame("DontPlayFair");
@@ -87,6 +111,7 @@ public class MainWindow
 		 * build component map
 		 * utilities sourced from various sites
 		 * see file for details
+		 *
 		 */
         HashMap<String, Component> componentMap =
                 new ComponentTrackingUtility()

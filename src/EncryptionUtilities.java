@@ -164,41 +164,4 @@ public class EncryptionUtilities {
 
         return standard;
     }
-
-    public void writeTextFile(String input, String filename) throws IOException {
-
-        FileWriter fileWriter = new FileWriter(filename);
-
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
-        bufferedWriter.write(input);
-
-        bufferedWriter.close();
-    }
-
-    public void writeBinaryFile(List<Integer> binary, String filename) throws IOException {
-
-        FileOutputStream outputStream = new FileOutputStream(filename + ".dpfe");
-
-        ByteBuffer bytes = ByteBuffer.allocate(binary.size());
-
-        for (int i : binary) {
-            bytes.putInt(i);
-        }
-
-
-    }
-
-    public static void printGridToCommandLine(int[][] grid)
-    {
-    	for(int i = 0; i < EncryptionMatrixMkII.__GRIDSIZE__; i++)
-	{
-    		for(int j = 0; j < EncryptionMatrixMkII.__GRIDSIZE__; j++)
-		{
-			System.out.print(grid[i][j] + " ");
-		}
-
-		System.out.println();
-	}
-    }
 }
