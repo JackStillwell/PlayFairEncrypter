@@ -10,12 +10,14 @@
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 public class EncryptionUtilities {
 
     /* Converts a string to an Ascii Array */
-    public static List<Integer> StringToAsciiArray(String input) {
+    public static List<Integer> stringToAsciiArray(String input) {
         assert input != null;
 
         List<Integer> asciiArray = new ArrayList<>();
@@ -27,7 +29,7 @@ public class EncryptionUtilities {
         return asciiArray;
     }
 
-    public static String AsciiArrayToString(List<Integer> input) {
+    public static String asciiArrayToString(List<Integer> input) {
         StringBuilder output = new StringBuilder();
 
         for (int num : input) {
@@ -45,7 +47,7 @@ public class EncryptionUtilities {
 
     */
     public static List<AsciiPair>
-    AsciiArrayToAsciiPairArray(List<Integer> input) {
+    asciiArrayToAsciiPairArray(List<Integer> input) {
         if (input.size() % 2 != 0) {
             // TODO: Deal with uneven amount of integers by adding something
             // NOTE: Whatever is added will need to be dealt with upon decryption
@@ -77,7 +79,7 @@ public class EncryptionUtilities {
     public static List<Integer> asciiArrayToBinaryArray(List<Integer> asciiArray) {
         List<Integer> binaryArray = new ArrayList<>();
 
-        for (int i : asciiArray) {
+        for (int i = 0; i < asciiArray.size(); i++) {
             binaryArray.addAll(asciiTo8BitBinary(asciiArray.get(i)));
         }
 
@@ -130,7 +132,7 @@ public class EncryptionUtilities {
         int ascii = 0;
 
         for (int i = 0; i < eightBitBinary.size(); i++) {
-            ascii += (eightBitBinary.get(i) * (Math.pow(2, (8 - i))));
+            ascii += (eightBitBinary.get(i) * (Math.pow(2, (8-i))));
         }
 
         return ascii;
@@ -163,5 +165,23 @@ public class EncryptionUtilities {
         }
 
         return standard;
+    }
+
+    public static List<Integer> stringToBinaryArray(String input)
+    {
+        List<Integer> output = new ArrayList<>();
+        List<Integer> binary = new ArrayList<>();
+
+        binary.add(0);
+        binary.add(1);
+
+        for(char c : input.toCharArray())
+        {
+            output.add((int) (c - '0'));
+        }
+
+        output.retainAll(binary);
+
+        return output;
     }
 }

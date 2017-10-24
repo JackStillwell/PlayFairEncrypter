@@ -7,7 +7,10 @@
 
  */
 
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 import java.util.Random;
 
@@ -118,8 +121,6 @@ public class EncryptionMatrixMkII {
                         key1,
                         key2,
                         encrypt);
-
-                System.out.println(processedArray);
             }
         }
 
@@ -158,36 +159,50 @@ public class EncryptionMatrixMkII {
     */
     public static ArrayList<Integer> xorCipher(
                                 String password,
-                                List<Integer> inputArray)
+                                List<Integer> binaryArray)
     {
-        List<Integer> asciiArray = EncryptionUtilities.StringToAsciiArray(password);
-        StringBuilder passwordNumString = new StringBuilder();
+        DecimalFormat fmt = new DecimalFormat("#");
+        List<Integer> asciiArray = EncryptionUtilities.stringToAsciiArray(password);
+        StringBuilder passwordNumStringBuilder = new StringBuilder();
 
         for(int i : asciiArray)
         {
-            passwordNumString.append(Integer.toString(i));
+            passwordNumStringBuilder.append(Integer.toString(i));
+        }
+
+        String passwordNumString = passwordNumStringBuilder.toString();
+        int passwordNumStringLength = passwordNumString.length();
+
+        Float passwordNumFloat = Float.valueOf(passwordNumString);
+
+        passwordNumString = fmt.format(passwordNumFloat);
+
+        while(passwordNumString.length() > 14)
+        {
+            passwordNumFloat = (float) Math.pow(passwordNumFloat, .5);
+
+             passwordNumString = fmt.format(passwordNumFloat);
         }
 
         Random passwordSeedGenerator = new Random(
-                Long.parseLong(passwordNumString.toString())
+                passwordNumFloat.longValue()
         );
 
         ArrayList<Integer> passwordArray = new ArrayList<>();
 
-        for(int i = 0; i < inputArray.size(); i++)
+        for(int i = 0; i < binaryArray.size(); i++)
         {
             passwordArray.add(passwordSeedGenerator.nextInt(2));
         }
 
         ArrayList<Integer> outputArray = new ArrayList<>();
 
-        for(int i = 0; i < inputArray.size(); i++)
+        for(int i = 0; i < binaryArray.size(); i++)
         {
             outputArray.add(
-                    inputArray.get(i)^passwordArray.get(i)
+                    binaryArray.get(i)^passwordArray.get(i)
             );
         }
-
         return outputArray;
     }
 
