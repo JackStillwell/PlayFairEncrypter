@@ -70,7 +70,7 @@ public class EncryptionUtilities {
 	    for(AsciiPair ap : asciiPairArray)
 	    {
 	    	asciiArray.add(ap.one);
-		asciiArray.add(ap.two);
+		    asciiArray.add(ap.two);
 	    }
 
 	    return asciiArray;
@@ -100,7 +100,7 @@ public class EncryptionUtilities {
 
         List<Integer> asciiArray = new ArrayList<>();
 
-        for (int i = 1; i < (binaryArray.size() / 8); i++) {
+        for (int i = 1; i < ((binaryArray.size() / 8) + 1); i++) {
             asciiArray.add(
                     eightBitBinaryToAscii(
                             binaryArray.subList(((i - 1) * 8), (i * 8))
@@ -132,7 +132,7 @@ public class EncryptionUtilities {
         int ascii = 0;
 
         for (int i = 0; i < eightBitBinary.size(); i++) {
-            ascii += (eightBitBinary.get(i) * (Math.pow(2, (8-i))));
+            ascii += (eightBitBinary.get(i) * (Math.pow(2, (7-i))));
         }
 
         return ascii;
@@ -167,7 +167,7 @@ public class EncryptionUtilities {
         return standard;
     }
 
-    public static List<Integer> stringToBinaryArray(String input)
+    public static List<Integer> binaryStringToBinaryArray(String input)
     {
         List<Integer> output = new ArrayList<>();
         List<Integer> binary = new ArrayList<>();
@@ -183,5 +183,17 @@ public class EncryptionUtilities {
         output.retainAll(binary);
 
         return output;
+    }
+
+    public static String binaryArrayToBinaryString(List<Integer> binaryArray)
+    {
+        StringBuilder binaryString = new StringBuilder();
+
+        for(int i : binaryArray)
+        {
+            binaryString.append(i);
+        }
+
+        return binaryString.toString();
     }
 }

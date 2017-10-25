@@ -56,25 +56,50 @@ public class MainWindow
 	    						.asciiPairArrayToAsciiArray(
 								encryptedAsciiPairArray);
 
-	    	String encrypted;
+	    	System.out.println("Original: " + encryptedAsciiArray);
 
 	    	System.out.println("Original: " +
                     EncryptionUtilities
                             .asciiArrayToBinaryArray(encryptedAsciiArray).toString());
 
-	    	encrypted = EncryptionMatrixMkII.xorCipher(
+	    	List<Integer> xoredArray = EncryptionMatrixMkII.xorCipher(
 					        "password",
                             EncryptionUtilities.asciiArrayToBinaryArray(
                                     encryptedAsciiArray)
-                        ).toString();
+                        );
 
-	    	// System.out.println("Encrypted: " + encrypted);
+	    	try {
+                IO_Utilities.writeTextFile(xoredArray.toString(), "testfile");
 
-	    	List<Integer> decryptedBinaryArray = EncryptionUtilities
-                    .stringToBinaryArray(encrypted);
+                // or
 
-	    	decryptedBinaryArray = EncryptionMatrixMkII
-					.xorCipher("password", decryptedBinaryArray);
+                IO_Utilities.writeBinaryFile(xoredArray,
+                        "testfileBinary");
+            }
+
+            catch(Exception e)
+            {
+                System.out.println("FUCK" + e.getLocalizedMessage());
+            }
+
+            String encrypted;
+
+            try{
+	    	    encrypted = IO_Utilities.readTextFile("testfile");
+
+	    	    // or
+
+                xoredArray = IO_Utilities.readBinaryFile("testfileBinary.dpfe");
+            }
+
+            catch(Exception e)
+            {
+                System.out.println("FUCK" + e.getLocalizedMessage());
+            }
+
+            List<Integer> decryptedBinaryArray =
+                    EncryptionMatrixMkII.xorCipher("password",
+                            xoredArray);
 
 	    	System.out.println("Decrypted: " + decryptedBinaryArray.toString());
 
@@ -85,6 +110,8 @@ public class MainWindow
                             )
 
                     );
+
+	    	System.out.println("Decrypted: " + decryptedAsciiPairArray);
 
 	    	decryptedAsciiPairArray = EncryptionMatrixMkII
                     .cyclePlayFairFoursquareCipher(

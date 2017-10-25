@@ -5,7 +5,7 @@ import java.util.List;
 
 public class IO_Utilities {
 
-    public void writeTextFile(String input, String filename) throws IOException
+    public static void writeTextFile(String input, String filename) throws IOException
     {
 
         FileWriter fileWriter = new FileWriter(filename);
@@ -39,7 +39,7 @@ public class IO_Utilities {
         return stringBuilder.toString();
     }
 
-    public void writeBinaryFile(List<Integer> binary, String filename) throws IOException
+    public static void writeBinaryFile(List<Integer> binary, String filename) throws IOException
     {
         FileOutputStream outputStream = new FileOutputStream(filename + ".dpfe");
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
@@ -50,7 +50,11 @@ public class IO_Utilities {
             bytes.append(i);
         }
 
-        bufferedOutputStream.write(bytes.toString().getBytes());
+        String toWriteString = bytes.toString();
+
+        byte[] toWrite = toWriteString.getBytes();
+
+        bufferedOutputStream.write(toWrite);
         bufferedOutputStream.flush();
         bufferedOutputStream.close();
         outputStream.close();
@@ -65,7 +69,7 @@ public class IO_Utilities {
 
         byte[] byteInput = bufferedInputStream.readAllBytes();
 
-        String stringInput =  new String(byteInput);
+        String stringInput = new String(byteInput);
 
         for(char c : stringInput.toCharArray())
         {
