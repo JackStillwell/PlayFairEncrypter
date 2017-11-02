@@ -39,6 +39,7 @@ public class IO_Utilities {
         return stringBuilder.toString();
     }
 
+    // Is actually writing out a text file TODO: FIX THIS
     public static void writeBinaryFile(List<Integer> binary, String filename) throws IOException
     {
         FileOutputStream outputStream = new FileOutputStream(filename + ".dpfe");
@@ -60,6 +61,7 @@ public class IO_Utilities {
         outputStream.close();
     }
 
+    // Is actually reading a text file TODO: FIX THIS
     public static List<Integer> readBinaryFile(String filename) throws IOException
     {
         List<Integer> binary = new ArrayList<>();
@@ -77,6 +79,28 @@ public class IO_Utilities {
         }
 
         return binary;
+    }
+
+    public static void writeKeyFile(List<List<Integer>> keyFile, String filename) throws IOException
+    {
+        FileOutputStream outputStream = new FileOutputStream(filename + ".dpfk");
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+        objectOutputStream.writeObject(keyFile);
+        objectOutputStream.close();
+        outputStream.close();
+    }
+
+    public static List<List<Integer>> readKeyFile(String filename) throws Exception
+    {
+        FileInputStream inputStream = new FileInputStream(filename);
+        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+        List<List<Integer>> keyFile  =
+                (List<List<Integer>>) objectInputStream.readObject();
+
+        objectInputStream.close();
+        inputStream.close();
+
+        return keyFile;
     }
 
     public static void printGridToCommandLine(int[][] grid)

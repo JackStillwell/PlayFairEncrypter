@@ -29,106 +29,8 @@ public class MainWindow
 
         if(args.length > 1 || DEBUG) // handle command line use
         {
-	    	for(String a : args)
-	    	{
-		    	System.out.println(a);
-	    	}
-
-            String toEncrypt = "hello world!";
-
-            List<Integer> asciiArray = EncryptionUtilities
-                                        .stringToAsciiArray(toEncrypt);
-
-	    	List<AsciiPair> asciiPairArray = EncryptionUtilities
-		    				.asciiArrayToAsciiPairArray(asciiArray);
-
-            // Multiply desired levels of encryption by 2 to obtain enough keys
-            List<List<Integer>> keys = EncryptionMatrixMkII
-                                        .keyFileGenerator(Integer.parseInt("10"));
-
-	    	List<AsciiPair> encryptedAsciiPairArray = EncryptionMatrixMkII
-		    					.cyclePlayFairFoursquareCipher(
-								asciiPairArray,
-								keys,
-                                true);
-
-	    	List<Integer> encryptedAsciiArray = EncryptionUtilities
-	    						.asciiPairArrayToAsciiArray(
-								encryptedAsciiPairArray);
-
-	    	System.out.println("Original: " + encryptedAsciiArray);
-
-	    	System.out.println("Original: " +
-                    EncryptionUtilities
-                            .asciiArrayToBinaryArray(encryptedAsciiArray).toString());
-
-	    	List<Integer> xoredArray = EncryptionMatrixMkII.xorCipher(
-					        "password",
-                            EncryptionUtilities.asciiArrayToBinaryArray(
-                                    encryptedAsciiArray)
-                        );
-
-	    	try {
-                IO_Utilities.writeTextFile(xoredArray.toString(), "testfile");
-
-                // or
-
-                IO_Utilities.writeBinaryFile(xoredArray,
-                        "testfileBinary");
-            }
-
-            catch(Exception e)
-            {
-                System.out.println("FUCK" + e.getLocalizedMessage());
-            }
-
-            String encrypted;
-
-            try{
-	    	    encrypted = IO_Utilities.readTextFile("testfile");
-
-	    	    // or
-
-                xoredArray = IO_Utilities.readBinaryFile("testfileBinary.dpfe");
-            }
-
-            catch(Exception e)
-            {
-                System.out.println("FUCK" + e.getLocalizedMessage());
-            }
-
-            List<Integer> decryptedBinaryArray =
-                    EncryptionMatrixMkII.xorCipher("password",
-                            xoredArray);
-
-	    	System.out.println("Decrypted: " + decryptedBinaryArray.toString());
-
-	    	List<AsciiPair> decryptedAsciiPairArray = EncryptionUtilities
-                    .asciiArrayToAsciiPairArray(
-                            EncryptionUtilities.binaryArrayToAsciiArray(
-                                    decryptedBinaryArray
-                            )
-
-                    );
-
-	    	System.out.println("Decrypted: " + decryptedAsciiPairArray);
-
-	    	decryptedAsciiPairArray = EncryptionMatrixMkII
-                    .cyclePlayFairFoursquareCipher(
-                            decryptedAsciiPairArray,
-                            keys,
-                            false
-                    );
-
-	    	String decrypted = EncryptionUtilities
-                    .asciiArrayToString(
-                            EncryptionUtilities
-                                    .asciiPairArrayToAsciiArray(decryptedAsciiPairArray)
-                    );
-
-	    	System.out.println(decrypted);
-
-	    	return;
+            handleCommandLine(args);
+            return;
         }
 
         JFrame frame = new JFrame("DontPlayFair");
@@ -159,5 +61,97 @@ public class MainWindow
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    private static void handleCommandLine(String[] args)
+    {
+        for(String a : args)
+        {
+            System.out.println(a);
+        }
+
+        try {
+
+            // parse command
+
+            if (args[0].equals("--help")) {
+                // print help string
+                return;
+            }
+
+            else if(args[0].equalsIgnoreCase("keyfile"))
+            {
+                try {
+                    int levels = Integer.parseInt(args[1]);
+
+                    List<List<Integer>> keys = EncryptionMatrixMkII.keyFileGenerator(levels);
+
+                    IO_Utilities.writeKeyFile(keys, args[2]);
+                }
+
+                catch(Exception e)
+                {
+                    System.out.println(e.getLocalizedMessage());
+                }
+
+                return;
+            }
+
+            boolean encrypt = args[0].equalsIgnoreCase("encrypt");
+
+            String input = args[1].equals("-f")
+                            ? IO_Utilities.readTextFile(args[2])
+                            : args[1];
+
+            List<List<Integer>> keys = args[1].equals("-f")
+                                    ? IO_Utilities.readKeyFile(args[3])
+                                    : IO_Utilities.readKeyFile(args[2]);
+
+            String password = args[1].equals("-f")
+                                ? args[4]
+                                : args[3];
+
+            List<AsciiPair> inputPairArray =
+                    EncryptionUtilities.asciiArrayToAsciiPairArray(
+                            EncryptionUtilities.stringToAsciiArray(
+                                    input
+                            )
+                    );
+
+            List<AsciiPair> outputPairArray =
+                    EncryptionMatrixMkII.cyclePlayFairFoursquareCipher(
+                            inputPairArray, keys, encrypt
+                    );
+
+            String output =
+                    EncryptionUtilities.asciiArrayToString(
+                            EncryptionUtilities.asciiPairArrayToAsciiArray(
+                                    outputPairArray
+                            )
+                    );
+
+            boolean fileOutput = args[1].equals("-f")
+                                    ? args[5].equals("-f")
+                                    : args[4].equals("-f");
+
+            if(fileOutput)
+            {
+                IO_Utilities.writeTextFile(output, args[args.length - 1]);
+            }
+
+            else
+            {
+                System.out.println(output);
+            }
+        }
+
+        catch(Exception e)
+        {
+            System.out.println(e.getLocalizedMessage());
+        }
+        // execute command
+
+        // exit
+        return;
     }
 }
