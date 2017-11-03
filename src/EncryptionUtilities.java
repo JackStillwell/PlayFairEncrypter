@@ -51,6 +51,9 @@ public class EncryptionUtilities {
         if (input.size() % 2 != 0) {
             // TODO: Deal with uneven amount of integers by adding something
             // NOTE: Whatever is added will need to be dealt with upon decryption
+
+            // Add a space to the end
+            input.add(32);
         }
 
         List<AsciiPair> asciiPairArray = new ArrayList<>();
