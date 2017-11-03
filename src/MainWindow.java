@@ -14,15 +14,11 @@ import java.util.List;
 
 public class MainWindow
 {
-    static final boolean DEBUG = true;
+    static final boolean DEBUG = false;
 
     private Component createComponents()
     {
-        JPanel master = new JPanel();
-
-        JFileChooser fileChooser = new JFileChooser();
-
-        return master;
+        return Builder.buildMaster();
     }
 
     public static void main(String[] args) {
@@ -74,12 +70,13 @@ public class MainWindow
 
             // parse command
 
-            if (args[0].equals("--help")) {
+            if (args[0].equals("--help"))
+            {
                 // print help string
                 return;
             }
 
-            else if(args[0].equalsIgnoreCase("keyfile"))
+            if(args[0].equalsIgnoreCase("keyfile"))
             {
                 try {
                     int levels = Integer.parseInt(args[1]);
@@ -97,7 +94,22 @@ public class MainWindow
                 return;
             }
 
-            boolean encrypt = args[0].equalsIgnoreCase("encrypt");
+            boolean encrypt;
+
+            if(args[0].equalsIgnoreCase("encrypt"))
+            {
+                encrypt = true;
+            }
+
+            else if(args[0].equalsIgnoreCase("decrypt"))
+            {
+                encrypt = false;
+            }
+
+            else
+            {
+                throw new Exception("Operation not recognized, please consult --help");
+            }
 
             String input = args[1].equals("-f")
                             ? IO_Utilities.readTextFile(args[2])
@@ -111,32 +123,78 @@ public class MainWindow
                                 ? args[4]
                                 : args[3];
 
-            List<AsciiPair> inputPairArray =
-                    EncryptionUtilities.asciiArrayToAsciiPairArray(
-                            EncryptionUtilities.stringToAsciiArray(
-                                    input
-                            )
-                    );
+            List<Integer> inputArray;
+
+            if(!encrypt)
+            {
+                inputArray = EncryptionUtilities.binaryStringToBinaryArray(input);
+                inputArray = EncryptionMatrixMkII.xorCipher(password, inputArray);
+                inputArray = EncryptionUtilities.binaryArrayToAsciiArray(inputArray);
+            }
+
+            else
+            {
+                inputArray = EncryptionUtilities.stringToAsciiArray(input);
+            }
+
+            List<AsciiPair> inputPairArray = EncryptionUtilities.asciiArrayToAsciiPairArray(inputArray);
 
             List<AsciiPair> outputPairArray =
                     EncryptionMatrixMkII.cyclePlayFairFoursquareCipher(
                             inputPairArray, keys, encrypt
                     );
 
-            String output =
-                    EncryptionUtilities.asciiArrayToString(
-                            EncryptionUtilities.asciiPairArrayToAsciiArray(
-                                    outputPairArray
-                            )
-                    );
+            List<Integer> outputArray;
+            String output = "";
 
-            boolean fileOutput = args[1].equals("-f")
-                                    ? args[5].equals("-f")
-                                    : args[4].equals("-f");
+            if(encrypt)
+            {
+                outputArray =
+                        EncryptionUtilities.asciiArrayToBinaryArray(
+                                EncryptionUtilities.asciiPairArrayToAsciiArray(
+                                        outputPairArray
+                                )
+                        );
+
+                outputArray = EncryptionMatrixMkII.xorCipher(password, outputArray);
+
+                output = EncryptionUtilities.binaryArrayToBinaryString(outputArray);
+            }
+
+            else
+            {
+                outputArray = EncryptionUtilities.asciiPairArrayToAsciiArray(
+                        outputPairArray
+                );
+
+                output = EncryptionUtilities.asciiArrayToString(outputArray);
+            }
+
+            boolean fileOutput = false;
+
+            try
+            {
+                fileOutput = args[1].equals("-f")
+                        ? args[5].equals("-f")
+                        : args[4].equals("-f");
+            }
+
+            catch (ArrayIndexOutOfBoundsException e)
+            {
+                fileOutput = false;
+            }
 
             if(fileOutput)
             {
-                IO_Utilities.writeTextFile(output, args[args.length - 1]);
+                if(encrypt)
+                {
+                    IO_Utilities.writeBinaryFile(outputArray, args[args.length - 1]);
+                }
+
+                else
+                {
+                    IO_Utilities.writeTextFile(output, args[args.length - 1]);
+                }
             }
 
             else
@@ -147,7 +205,8 @@ public class MainWindow
 
         catch(Exception e)
         {
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e.getLocalizedMessage() + "\n"
+                                + e.toString());
         }
         // execute command
 

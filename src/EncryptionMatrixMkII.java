@@ -137,8 +137,6 @@ public class EncryptionMatrixMkII {
                         key1,
                         key2,
                         encrypt);
-
-                System.out.println(processedArray);
             }
         }
 
