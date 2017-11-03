@@ -19,7 +19,7 @@ public class Builder {
 
         JLabel keyFileLabel = new JLabel("KeyFile");
 
-        JFileChooser keyFileChooser = new JFileChooser();
+        JLabel keyFileChooser = new JLabel("FileChooser");
 
         JTextField keyFilePathField = new JTextField();
 
@@ -84,6 +84,12 @@ public class Builder {
         master.setLayout(new BorderLayout(10,10));
 
         master.add(buildRightSide(), BorderLayout.EAST);
+
+        master.add(new JScrollBar(), BorderLayout.CENTER);
+
+        master.add(new JTextArea(), BorderLayout.SOUTH);
+
+        master.add(new JMenuBar(), BorderLayout.NORTH);
 
         return master;
     }
