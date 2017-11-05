@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 
 public class Builder {
@@ -79,34 +78,30 @@ public class Builder {
 
     public static Component buildTextArea()
     {
-        JPanel master = new JPanel();
-
         JScrollPane textScrollPane = new JScrollPane();
 
-        JTextArea textArea = new JTextArea();
+        JTextArea textArea = new JTextArea(80,80);
+
+        textArea.setText("Text Area");
 
         textScrollPane.add(textArea);
 
-        master.add(textScrollPane);
-
-        return master;
+        return textScrollPane;
     }
 
     public static Component buildCommandArea()
     {
-        JPanel master = new JPanel();
-
         JScrollPane textScrollPane = new JScrollPane();
 
-        JTextArea textArea = new JTextArea();
+        JTextArea textArea = new JTextArea(10,80);
+
+        textArea.setText("Command Area");
 
         textArea.setEditable(false);
 
         textScrollPane.add(textArea);
 
-        master.add(textScrollPane);
-
-        return master;
+        return textScrollPane;
     }
 
     public static Component buildMenuBar()
