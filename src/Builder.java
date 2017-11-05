@@ -8,7 +8,7 @@ public class Builder {
     {
         JPanel master = new JPanel();
 
-        // Build all compoenents
+        // Build all components
 
         JButton lockEncryptButton = new JButton("Encrypt");
         JButton unlockDecryptButton = new JButton("Decrypt");
@@ -77,6 +77,70 @@ public class Builder {
         return master;
     }
 
+    public static Component buildTextArea()
+    {
+        JPanel master = new JPanel();
+
+        JScrollPane textScrollPane = new JScrollPane();
+
+        JTextArea textArea = new JTextArea();
+
+        textScrollPane.add(textArea);
+
+        master.add(textScrollPane);
+
+        return master;
+    }
+
+    public static Component buildCommandArea()
+    {
+        JPanel master = new JPanel();
+
+        JScrollPane textScrollPane = new JScrollPane();
+
+        JTextArea textArea = new JTextArea();
+
+        textArea.setEditable(false);
+
+        textScrollPane.add(textArea);
+
+        master.add(textScrollPane);
+
+        return master;
+    }
+
+    public static Component buildMenuBar()
+    {
+        JPanel master = new JPanel();
+
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+
+        JMenuItem helpMenu = new JMenuItem("Help");
+
+        JMenuItem aboutMenu = new JMenuItem("About");
+
+        JMenuItem loadButton = new JMenuItem("Load File");
+
+        JMenuItem saveButton = new JMenuItem("Save File");
+
+        JMenuItem selectKeyfile = new JMenuItem("Select KeyFile");
+
+        JMenuItem createKeyfile = new JMenuItem("Create Keyfile");
+
+        fileMenu.add(loadButton);
+        fileMenu.add(saveButton);
+        fileMenu.add(selectKeyfile);
+        fileMenu.add(createKeyfile);
+
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+        menuBar.add(aboutMenu);
+
+        return master;
+    }
+
     public static Component buildMaster()
     {
         JPanel master = new JPanel();
@@ -85,13 +149,12 @@ public class Builder {
 
         master.add(buildRightSide(), BorderLayout.EAST);
 
-        master.add(new JScrollBar(), BorderLayout.CENTER);
+        master.add(buildTextArea(), BorderLayout.CENTER);
 
-        master.add(new JTextArea(), BorderLayout.SOUTH);
+        master.add(buildCommandArea(), BorderLayout.SOUTH);
 
-        master.add(new JMenuBar(), BorderLayout.NORTH);
+        master.add(buildMenuBar(), BorderLayout.NORTH);
 
         return master;
     }
-
 }
