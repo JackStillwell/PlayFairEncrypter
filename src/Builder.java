@@ -10,21 +10,28 @@ public class Builder {
         // Build all components
 
         JButton lockEncryptButton = new JButton("Encrypt");
+        lockEncryptButton.setName("lockEncryptButton");
         JButton unlockDecryptButton = new JButton("Decrypt");
+        unlockDecryptButton.setName("unlockDecryptButton");
 
         JLabel passwordLabel = new JLabel("Password");
 
         JPasswordField passwordField = new JPasswordField();
+        passwordField.setName("passwordField");
 
         JLabel keyFileLabel = new JLabel("KeyFile");
 
-        JLabel keyFileChooser = new JLabel("FileChooser");
+        JButton keyFileChooser = new JButton("FileChooser");
+        keyFileChooser.setName("keyFileChooser");
 
         JTextField keyFilePathField = new JTextField();
+        keyFilePathField.setEditable(false);
+        keyFilePathField.setName("keyFilePathField");
 
         JLabel levelLabel = new JLabel("Level");
 
         JLabel levelDisplay = new JLabel();
+        levelDisplay.setName("levelDisplay");
 
         // build buttons
         JPanel encryptDecryptButtonPanel = new JPanel();
@@ -78,51 +85,68 @@ public class Builder {
 
     public static Component buildTextArea()
     {
-        JScrollPane textScrollPane = new JScrollPane();
+        JPanel master = new JPanel(new GridLayout(1,1));
 
-        JTextArea textArea = new JTextArea(80,80);
+        JTextArea textArea = new JTextArea(40,80);
+        textArea.setName("textArea");
 
-        textArea.setText("Text Area");
+        textArea.setWrapStyleWord(true);
+        textArea.setLineWrap(true);
 
-        textScrollPane.add(textArea);
+        JScrollPane textScrollPane = new JScrollPane(textArea);
 
-        return textScrollPane;
+        master.add(textScrollPane);
+
+        return master;
     }
 
     public static Component buildCommandArea()
     {
-        JScrollPane textScrollPane = new JScrollPane();
+        JPanel master = new JPanel(new GridLayout(1,1));
 
         JTextArea textArea = new JTextArea(10,80);
+        textArea.setName("commandArea");
 
-        textArea.setText("Command Area");
+        textArea.setText("Command Area\n");
 
         textArea.setEditable(false);
 
-        textScrollPane.add(textArea);
+        textArea.setWrapStyleWord(true);
 
-        return textScrollPane;
+        textArea.setLineWrap(true);
+
+        JScrollPane textScrollPane = new JScrollPane(textArea);
+
+        master.add(textScrollPane);
+
+        return master;
     }
 
     public static Component buildMenuBar()
     {
-        JPanel master = new JPanel();
+        JPanel master = new JPanel(new GridLayout(1, 6));
 
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("File");
 
-        JMenuItem helpMenu = new JMenuItem("Help");
+        JMenu helpMenu = new JMenu("Help");
+        helpMenu.setName("helpMenu");
 
-        JMenuItem aboutMenu = new JMenuItem("About");
+        JMenu aboutMenu = new JMenu("About");
+        aboutMenu.setName("aboutMenu");
 
         JMenuItem loadButton = new JMenuItem("Load File");
+        loadButton.setName("loadButton");
 
         JMenuItem saveButton = new JMenuItem("Save File");
+        saveButton.setName("saveButton");
 
         JMenuItem selectKeyfile = new JMenuItem("Select KeyFile");
+        selectKeyfile.setName("selectKeyFileButton");
 
         JMenuItem createKeyfile = new JMenuItem("Create Keyfile");
+        createKeyfile.setName("createKeyFileButton");
 
         fileMenu.add(loadButton);
         fileMenu.add(saveButton);
@@ -133,6 +157,8 @@ public class Builder {
         menuBar.add(helpMenu);
         menuBar.add(aboutMenu);
 
+        master.add(menuBar);
+
         return master;
     }
 
@@ -140,15 +166,23 @@ public class Builder {
     {
         JPanel master = new JPanel();
 
+        JPanel rightSide = (JPanel) buildRightSide();
+
+        JPanel textArea = (JPanel) buildTextArea();
+
+        JPanel commandArea = (JPanel) buildCommandArea();
+
+        JPanel menuBar = (JPanel) buildMenuBar();
+
         master.setLayout(new BorderLayout(10,10));
 
-        master.add(buildRightSide(), BorderLayout.EAST);
+        master.add(rightSide, BorderLayout.EAST);
 
-        master.add(buildTextArea(), BorderLayout.CENTER);
+        master.add(textArea, BorderLayout.CENTER);
 
-        master.add(buildCommandArea(), BorderLayout.SOUTH);
+        master.add(commandArea, BorderLayout.SOUTH);
 
-        master.add(buildMenuBar(), BorderLayout.NORTH);
+        master.add(menuBar, BorderLayout.NORTH);
 
         return master;
     }

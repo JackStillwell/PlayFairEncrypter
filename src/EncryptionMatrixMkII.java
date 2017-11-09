@@ -80,6 +80,20 @@ public class EncryptionMatrixMkII {
             int encryptedLetter1;
             int encryptedLetter2;
 
+            assert
+                letter1Row != -1 &&
+                letter1Column != -1 &&
+                letter2Row != -1 &&
+                letter2Column != -1;
+
+            if(letter1Row != -1 ||
+                    letter1Column != -1 ||
+                    letter2Row != -1 ||
+                    letter2Column != -1)
+            {
+                System.out.println("heyo");
+            }
+
             if(encrypt) {
                 encryptedLetter1 = key1[letter2Row][letter1Column];
                 encryptedLetter2 = key2[letter1Row][letter2Column];
@@ -157,11 +171,21 @@ public class EncryptionMatrixMkII {
     */
     public static ArrayList<Integer> xorCipher(
                                 String password,
+                                List<List<Integer>> keyfile,
                                 List<Integer> binaryArray)
     {
         DecimalFormat fmt = new DecimalFormat("#");
         List<Integer> asciiArray = EncryptionUtilities.stringToAsciiArray(password);
         StringBuilder passwordNumStringBuilder = new StringBuilder();
+
+        List<AsciiPair> asciiPairArray = EncryptionUtilities.asciiArrayToAsciiPairArray(asciiArray);
+
+        // ensure unique xor generation per unique password-keyfile combo
+
+        asciiPairArray = EncryptionMatrixMkII
+                .cyclePlayFairFoursquareCipher(asciiPairArray, keyfile, true);
+
+        asciiArray = EncryptionUtilities.asciiPairArrayToAsciiArray(asciiPairArray);
 
         for(int i : asciiArray)
         {
@@ -251,5 +275,50 @@ public class EncryptionMatrixMkII {
         }
 
         return keyFile;
+    }
+
+    public static String encryptSequence(String input, List<List<Integer>> keyFile, String password)
+    {
+        List<Integer> asciiArray =
+                EncryptionUtilities.stringToAsciiArray(input);
+
+        List<AsciiPair> asciiPairArray =
+                EncryptionUtilities.asciiArrayToAsciiPairArray(asciiArray);
+
+        asciiPairArray = EncryptionMatrixMkII
+                .cyclePlayFairFoursquareCipher(asciiPairArray, keyFile, true);
+
+        asciiArray = EncryptionUtilities
+                .asciiPairArrayToAsciiArray(asciiPairArray);
+
+        List<Integer> binaryArray = EncryptionUtilities
+                .asciiArrayToBinaryArray(asciiArray);
+
+        binaryArray = EncryptionMatrixMkII
+                .xorCipher(password, keyFile, binaryArray);
+
+        return EncryptionUtilities.binaryArrayToBinaryString(binaryArray);
+    }
+
+    public static String decryptSequence(String input, List<List<Integer>> keyFile, String password)
+    {
+        List<Integer> binaryArray = EncryptionUtilities
+                .binaryStringToBinaryArray(input);
+
+        binaryArray = EncryptionMatrixMkII
+                .xorCipher(password, keyFile, binaryArray);
+
+        List<Integer> asciiArray = EncryptionUtilities
+                .binaryArrayToAsciiArray(binaryArray);
+
+        List<AsciiPair> asciiPairArray = EncryptionUtilities
+                .asciiArrayToAsciiPairArray(asciiArray);
+
+        asciiPairArray = EncryptionMatrixMkII
+                .cyclePlayFairFoursquareCipher(asciiPairArray,keyFile,false);
+
+        asciiArray = EncryptionUtilities.asciiPairArrayToAsciiArray(asciiPairArray);
+
+        return EncryptionUtilities.asciiArrayToString(asciiArray);
     }
 }

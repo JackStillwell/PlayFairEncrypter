@@ -9,12 +9,14 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainWindow
 {
     static final boolean DEBUG = false;
+    static final boolean GUI_DEBUG = true;
 
     private Component createComponents()
     {
@@ -28,6 +30,8 @@ public class MainWindow
             handleCommandLine(args);
             return;
         }
+
+        // TODO: run start-up procedure to obtain all necessary boot info
 
         JFrame frame = new JFrame("DontPlayFair");
 
@@ -45,7 +49,6 @@ public class MainWindow
 		 * build component map
 		 * utilities sourced from various sites
 		 * see file for details
-		 *
 		 */
         HashMap<String, Component> componentMap =
                 new ComponentTrackingUtility()
@@ -53,6 +56,33 @@ public class MainWindow
 
         // TODO: all component listener assignment here
 
+        ActionListener buttonListener = new ButtonListener(componentMap);
+
+        ((JButton) componentMap.get("lockEncryptButton")).addActionListener(buttonListener);
+        ((JButton) componentMap.get("unlockDecryptButton")).addActionListener(buttonListener);
+
+
+        if(GUI_DEBUG)
+        {
+            try {
+                ((JTextField) componentMap.get("keyFilePathField")).setText("src/keyfile.dpfk");
+
+                String keyFilePath = ((JTextField) componentMap.get("keyFilePathField")).getText();
+
+                List<List<Integer>> keys = IO_Utilities.readKeyFile(keyFilePath);
+
+                ((JLabel) componentMap.get("levelDisplay")).setText(
+                        keys.size() / 2 + ""
+                );
+            }
+
+            catch(Exception x)
+            {
+                ((JTextArea) componentMap.get("commandArea")).append(
+                        x.toString() + "\n"
+                );
+            }
+        }
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -128,7 +158,7 @@ public class MainWindow
             if(!encrypt)
             {
                 inputArray = EncryptionUtilities.binaryStringToBinaryArray(input);
-                inputArray = EncryptionMatrixMkII.xorCipher(password, inputArray);
+                inputArray = EncryptionMatrixMkII.xorCipher(password, keys, inputArray);
                 inputArray = EncryptionUtilities.binaryArrayToAsciiArray(inputArray);
             }
 
@@ -156,7 +186,7 @@ public class MainWindow
                                 )
                         );
 
-                outputArray = EncryptionMatrixMkII.xorCipher(password, outputArray);
+                outputArray = EncryptionMatrixMkII.xorCipher(password, keys, outputArray);
 
                 output = EncryptionUtilities.binaryArrayToBinaryString(outputArray);
             }
