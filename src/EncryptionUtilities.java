@@ -17,13 +17,49 @@ import java.util.List;
 public class EncryptionUtilities {
 
     /* Converts a string to an Ascii Array */
-    public static List<Integer> stringToAsciiArray(String input) {
+    public static List<Integer> stringToAsciiArrayOLD (String input) throws UnsupportedEncodingException {
         assert input != null;
+
+        byte[] inputBytes = input.getBytes("UTF8");
+
+        input = new String(inputBytes, "UTF8");
 
         List<Integer> asciiArray = new ArrayList<>();
 
         for (char c : input.toCharArray()) {
             asciiArray.add(((int) c));
+
+            if(((int) c) > 255 || ((int) c) < 0)
+            {
+                System.out.println("error converting to ascii \n" +
+                                    "char: " + c + "\n" +
+                                    "int: " + ((int) c));
+            }
+        }
+
+        return asciiArray;
+    }
+
+    public static List<Integer> stringToAsciiArray(String input) throws UnsupportedEncodingException {
+        assert input != null;
+
+        // converts to UTF-8 format
+
+        // & 0xFF replicates an unsigned int
+
+        byte[] inputBytes = input.getBytes("UTF8");
+
+        List<Integer> asciiArray = new ArrayList<>();
+
+        for (byte b : inputBytes) {
+            asciiArray.add(((int) b) & 0xFF);
+
+            if(((int) b & 0xFF) > 255 || ((int) b & 0xFF) < 0)
+            {
+                System.out.println("error converting to ascii \n" +
+                        "char: " + ((char) b & 0xFF) + "\n" +
+                        "int: " + ((int) b & 0xFF));
+            }
         }
 
         return asciiArray;

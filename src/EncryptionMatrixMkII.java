@@ -7,6 +7,7 @@
 
  */
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.util.ArrayList;
@@ -86,12 +87,14 @@ public class EncryptionMatrixMkII {
                 letter2Row != -1 &&
                 letter2Column != -1;
 
-            if(letter1Row != -1 ||
-                    letter1Column != -1 ||
-                    letter2Row != -1 ||
-                    letter2Column != -1)
+            if(letter1Row == -1 ||
+                    letter1Column == -1 ||
+                    letter2Row == -1 ||
+                    letter2Column == -1)
             {
-                System.out.println("heyo");
+                System.out.println("could not find character \n" +
+                                    "letter1: " + letter1 + "\n" +
+                                    "letter2: " + letter2 + "\n");
             }
 
             if(encrypt) {
@@ -172,8 +175,7 @@ public class EncryptionMatrixMkII {
     public static ArrayList<Integer> xorCipher(
                                 String password,
                                 List<List<Integer>> keyfile,
-                                List<Integer> binaryArray)
-    {
+                                List<Integer> binaryArray) throws UnsupportedEncodingException {
         DecimalFormat fmt = new DecimalFormat("#");
         List<Integer> asciiArray = EncryptionUtilities.stringToAsciiArray(password);
         StringBuilder passwordNumStringBuilder = new StringBuilder();
@@ -277,8 +279,7 @@ public class EncryptionMatrixMkII {
         return keyFile;
     }
 
-    public static String encryptSequence(String input, List<List<Integer>> keyFile, String password)
-    {
+    public static String encryptSequence(String input, List<List<Integer>> keyFile, String password) throws UnsupportedEncodingException {
         List<Integer> asciiArray =
                 EncryptionUtilities.stringToAsciiArray(input);
 
@@ -300,8 +301,7 @@ public class EncryptionMatrixMkII {
         return EncryptionUtilities.binaryArrayToBinaryString(binaryArray);
     }
 
-    public static String decryptSequence(String input, List<List<Integer>> keyFile, String password)
-    {
+    public static String decryptSequence(String input, List<List<Integer>> keyFile, String password) throws UnsupportedEncodingException {
         List<Integer> binaryArray = EncryptionUtilities
                 .binaryStringToBinaryArray(input);
 

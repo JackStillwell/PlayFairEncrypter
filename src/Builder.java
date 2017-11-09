@@ -58,6 +58,7 @@ public class Builder {
 
         keyFilePanel.setLayout(new BorderLayout(10,10));
 
+        keyFilePanel.add(keyFileLabel, BorderLayout.NORTH);
         keyFilePanel.add(keyFileChooser, BorderLayout.WEST);
         keyFilePanel.add(keyFilePathField, BorderLayout.CENTER);
 
@@ -70,15 +71,15 @@ public class Builder {
         keyFileLevelPanel.add(levelLabel, BorderLayout.CENTER);
         keyFileLevelPanel.add(levelDisplay, BorderLayout.EAST);
 
+        keyFilePanel.add(keyFileLevelPanel, BorderLayout.SOUTH);
+
         // build master
 
-        master.setLayout(new GridLayout(5,1, 10, 10));
+        master.setLayout(new GridLayout(3,1, 10, 10));
 
         master.add(encryptDecryptButtonPanel);
         master.add(passwordPanel);
-        master.add(keyFileLabel);
         master.add(keyFilePanel);
-        master.add(keyFileLevelPanel);
 
         return master;
     }
