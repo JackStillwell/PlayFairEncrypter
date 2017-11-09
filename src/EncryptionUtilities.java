@@ -17,7 +17,7 @@ import java.util.List;
 public class EncryptionUtilities {
 
     /* Converts a string to an Ascii Array */
-    public static List<Integer> stringToAsciiArrayOLD (String input) throws UnsupportedEncodingException {
+    public static List<Integer> stringToAsciiArrayOLD (String input) throws Exception {
         assert input != null;
 
         byte[] inputBytes = input.getBytes("UTF8");
@@ -31,7 +31,7 @@ public class EncryptionUtilities {
 
             if(((int) c) > 255 || ((int) c) < 0)
             {
-                System.out.println("error converting to ascii \n" +
+                throw new Exception("error converting to ascii \n" +
                                     "char: " + c + "\n" +
                                     "int: " + ((int) c));
             }
@@ -40,7 +40,7 @@ public class EncryptionUtilities {
         return asciiArray;
     }
 
-    public static List<Integer> stringToAsciiArray(String input) throws UnsupportedEncodingException {
+    public static List<Integer> stringToAsciiArray(String input) throws Exception {
         assert input != null;
 
         // converts to UTF-8 format
@@ -56,7 +56,7 @@ public class EncryptionUtilities {
 
             if(((int) b & 0xFF) > 255 || ((int) b & 0xFF) < 0)
             {
-                System.out.println("error converting to ascii \n" +
+               throw new Exception("error converting to ascii \n" +
                         "char: " + ((char) b & 0xFF) + "\n" +
                         "int: " + ((int) b & 0xFF));
             }

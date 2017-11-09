@@ -28,15 +28,13 @@ public class EncryptionMatrixMkII {
                                 int[][] alphabet,
                                 int[][] key1,
                                 int[][] key2,
-                                boolean encrypt)
+                                boolean encrypt) throws Exception
     {
         List<AsciiPair> output = new ArrayList<>();
 
         for (AsciiPair anInput : input) {
             Integer letter1 = anInput.one;
             Integer letter2 = anInput.two;
-
-	    //EncryptionUtilities.printGridToCommandLine(alphabet);
 
             int letter1Row = -1;
             int letter1Column = -1;
@@ -92,7 +90,7 @@ public class EncryptionMatrixMkII {
                     letter2Row == -1 ||
                     letter2Column == -1)
             {
-                System.out.println("could not find character \n" +
+                throw new Exception("could not find character \n" +
                                     "letter1: " + letter1 + "\n" +
                                     "letter2: " + letter2 + "\n");
             }
@@ -117,7 +115,7 @@ public class EncryptionMatrixMkII {
     public static List<AsciiPair> cyclePlayFairFoursquareCipher(
             List<AsciiPair> asciiArray,
             List<List<Integer>> keyArray,
-            boolean encrypt)
+            boolean encrypt) throws Exception
     {
         int[][] standardGrid = EncryptionUtilities
                                 .asciiArrayToIntGrid(
@@ -175,7 +173,8 @@ public class EncryptionMatrixMkII {
     public static ArrayList<Integer> xorCipher(
                                 String password,
                                 List<List<Integer>> keyfile,
-                                List<Integer> binaryArray) throws UnsupportedEncodingException {
+                                List<Integer> binaryArray) throws Exception {
+
         DecimalFormat fmt = new DecimalFormat("#");
         List<Integer> asciiArray = EncryptionUtilities.stringToAsciiArray(password);
         StringBuilder passwordNumStringBuilder = new StringBuilder();
@@ -279,7 +278,7 @@ public class EncryptionMatrixMkII {
         return keyFile;
     }
 
-    public static String encryptSequence(String input, List<List<Integer>> keyFile, String password) throws UnsupportedEncodingException {
+    public static String encryptSequence(String input, List<List<Integer>> keyFile, String password) throws Exception {
         List<Integer> asciiArray =
                 EncryptionUtilities.stringToAsciiArray(input);
 
@@ -301,7 +300,7 @@ public class EncryptionMatrixMkII {
         return EncryptionUtilities.binaryArrayToBinaryString(binaryArray);
     }
 
-    public static String decryptSequence(String input, List<List<Integer>> keyFile, String password) throws UnsupportedEncodingException {
+    public static String decryptSequence(String input, List<List<Integer>> keyFile, String password) throws Exception {
         List<Integer> binaryArray = EncryptionUtilities
                 .binaryStringToBinaryArray(input);
 
