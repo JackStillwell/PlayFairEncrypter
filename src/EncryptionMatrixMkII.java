@@ -10,10 +10,8 @@
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.Format;
-import java.util.ArrayList;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.*;
 
 public class EncryptionMatrixMkII {
 
@@ -30,86 +28,54 @@ public class EncryptionMatrixMkII {
                                 int[][] key2,
                                 boolean encrypt) throws Exception
     {
-        List<AsciiPair> output = new ArrayList<>();
+        ExecutorService executorService =
+                Executors.newCachedThreadPool();
 
-        for (AsciiPair anInput : input) {
-            Integer letter1 = anInput.one;
-            Integer letter2 = anInput.two;
+        CompletionService<ThreadedAsciiPair> completionService =
+                new ExecutorCompletionService<ThreadedAsciiPair>(executorService);
 
-            int letter1Row = -1;
-            int letter1Column = -1;
-            int letter2Row = -1;
-            int letter2Column = -1;
+        AsciiPair[] output = new AsciiPair[input.size()];
 
-            if(encrypt)
-            {
-                for (int j = 0; j < __GRIDSIZE__; j++) {
-                    for (int k = 0; k < __GRIDSIZE__; k++) {
-                        if (alphabet[j][k] == (letter1)) {
-                            letter1Row = j;
-                            letter1Column = k;
-                        }
 
-                        if (alphabet[j][k] == (letter2)) {
-                            letter2Row = j;
-                            letter2Column = k;
-                        }
-                    }
-                }
+        if(encrypt) {
+            for (int i = 0; i < input.size(); i++) {
+
+                EncryptPair thread = new EncryptPair(input.get(i),
+                        alphabet,
+                        key1,
+                        key2,
+                        i);
+
+                completionService.submit(thread);
             }
-
-            else
-            {
-                for (int j = 0; j < __GRIDSIZE__; j++) {
-                    for (int k = 0; k < __GRIDSIZE__; k++) {
-                        if (key1[j][k] == (letter1)) {
-                            letter1Row = j;
-                            letter1Column = k;
-                        }
-
-                        if (key2[j][k] == (letter2)) {
-                            letter2Row = j;
-                            letter2Column = k;
-                        }
-                    }
-                }
-            }
-
-
-            int encryptedLetter1;
-            int encryptedLetter2;
-
-            assert
-                letter1Row != -1 &&
-                letter1Column != -1 &&
-                letter2Row != -1 &&
-                letter2Column != -1;
-
-            if(letter1Row == -1 ||
-                    letter1Column == -1 ||
-                    letter2Row == -1 ||
-                    letter2Column == -1)
-            {
-                throw new Exception("could not find character \n" +
-                                    "letter1: " + letter1 + "\n" +
-                                    "letter2: " + letter2 + "\n");
-            }
-
-            if(encrypt) {
-                encryptedLetter1 = key1[letter2Row][letter1Column];
-                encryptedLetter2 = key2[letter1Row][letter2Column];
-            }
-
-            else
-            {
-                encryptedLetter1 = alphabet[letter2Row][letter1Column];
-                encryptedLetter2 = alphabet[letter1Row][letter2Column];
-            }
-
-            output.add(new AsciiPair(encryptedLetter1,encryptedLetter2));
         }
 
-        return output;
+        else
+        {
+            for (int i = 0; i < input.size(); i++) {
+
+                DecryptPair thread = new DecryptPair(input.get(i),
+                        alphabet,
+                        key1,
+                        key2,
+                        i);
+
+                completionService.submit(thread);
+            }
+        }
+
+        int complete = 0;
+
+        while(complete < input.size())
+        {
+            Future<ThreadedAsciiPair> outPair = completionService.take();
+
+            output[outPair.get().index] = outPair.get().asciiPair;
+
+            complete++;
+        }
+
+        return Arrays.asList(output);
     }
 
     public static List<AsciiPair> cyclePlayFairFoursquareCipher(

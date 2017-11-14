@@ -9,10 +9,9 @@ public class AsciiPair
         two = _two;
     }
 
-    public String toString()
-    {
-	String toReturn = one + ":" + two;
+    public String toString() {
+        String toReturn = one + ":" + two;
 
-	return toReturn;
+        return toReturn;
     }
 }

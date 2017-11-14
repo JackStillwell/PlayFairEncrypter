@@ -42,7 +42,7 @@ public class IO_Utilities {
     // Is actually writing out a text file TODO: FIX THIS
     public static void writeBinaryFile(List<Integer> binary, String filename) throws IOException
     {
-        FileOutputStream outputStream = new FileOutputStream(filename + ".dpfe");
+        FileOutputStream outputStream = new FileOutputStream(filename);
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
 
         StringBuilder bytes = new StringBuilder();

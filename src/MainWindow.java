@@ -118,7 +118,7 @@ public class MainWindow
 
                 catch(Exception e)
                 {
-                    System.out.println(e.getLocalizedMessage());
+                    System.out.println(e.toString());
                 }
 
                 return;
