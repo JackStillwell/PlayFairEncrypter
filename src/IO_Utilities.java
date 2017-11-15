@@ -30,7 +30,7 @@ public class IO_Utilities {
 
         while((line = bufferedReader.readLine()) != null)
         {
-            stringBuilder.append(line);
+            stringBuilder.append(line + "\n");
         }
 
         fileReader.close();

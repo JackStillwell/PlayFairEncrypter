@@ -34,6 +34,7 @@ public class MainWindow
         // TODO: run start-up procedure to obtain all necessary boot info
 
         JFrame frame = new JFrame("DontPlayFair");
+        frame.setName("MainWindow");
 
         MainWindow mainWindow = new MainWindow();
 
@@ -53,6 +54,8 @@ public class MainWindow
         HashMap<String, Component> componentMap =
                 new ComponentTrackingUtility()
                         .buildComponentMap(frame.getContentPane());
+
+        componentMap.put("master", frame);
 
         // TODO: all component listener assignment here
 
@@ -158,7 +161,7 @@ public class MainWindow
             if(!encrypt)
             {
                 inputArray = EncryptionUtilities.binaryStringToBinaryArray(input);
-                inputArray = EncryptionMatrixMkII.xorCipher(password, keys, inputArray);
+                inputArray = EncryptionMatrixMkIICmd.xorCipher(password, keys, inputArray);
                 inputArray = EncryptionUtilities.binaryArrayToAsciiArray(inputArray);
             }
 
@@ -170,7 +173,7 @@ public class MainWindow
             List<AsciiPair> inputPairArray = EncryptionUtilities.asciiArrayToAsciiPairArray(inputArray);
 
             List<AsciiPair> outputPairArray =
-                    EncryptionMatrixMkII.cyclePlayFairFoursquareCipher(
+                    EncryptionMatrixMkIICmd.cyclePlayFairFoursquareCipher(
                             inputPairArray, keys, encrypt
                     );
 
@@ -186,7 +189,7 @@ public class MainWindow
                                 )
                         );
 
-                outputArray = EncryptionMatrixMkII.xorCipher(password, keys, outputArray);
+                outputArray = EncryptionMatrixMkIICmd.xorCipher(password, keys, outputArray);
 
                 output = EncryptionUtilities.binaryArrayToBinaryString(outputArray);
             }
@@ -216,6 +219,8 @@ public class MainWindow
 
             if(fileOutput)
             {
+                System.out.println("Beginning file write...\n");
+
                 if(encrypt)
                 {
                     IO_Utilities.writeBinaryFile(outputArray, args[args.length - 1]);
@@ -225,6 +230,8 @@ public class MainWindow
                 {
                     IO_Utilities.writeTextFile(output, args[args.length - 1]);
                 }
+
+                System.out.println("Finished File write\n");
             }
 
             else
@@ -238,9 +245,8 @@ public class MainWindow
             System.out.println(e.getLocalizedMessage() + "\n"
                                 + e.toString());
         }
-        // execute command
 
-        // exit
+        System.out.println("Exiting...");
         return;
     }
 }

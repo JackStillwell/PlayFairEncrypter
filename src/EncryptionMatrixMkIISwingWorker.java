@@ -8,18 +8,46 @@
  */
 
 import javax.swing.*;
+import javax.swing.text.Caret;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
 
-public class EncryptionMatrixMkII {
+public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> {
 
     /* TODO: CATCH AND LOG ASSERTION ERRORS */
     /* TODO: ADD ASSERTIONS WHERE ANY BREAK POSSIBLE */
 
     public static final int __GRIDSIZE__ = 16;
+
+    private JTextArea textArea;
+    private JTextArea commandArea;
+    private JFrame master;
+    HashMap<String, Component> _map;
+    private String input;
+    List<List<Integer>> keyFile;
+    String password;
+    boolean encrypt;
+
+
+    public EncryptionMatrixMkIISwingWorker(HashMap<String, Component> map,
+                                           String _input,
+                                           List<List<Integer>> _keyFile,
+                                           String _password,
+                                           boolean _encrypt)
+    {
+        textArea = (JTextArea) map.get("textArea");
+        commandArea = (JTextArea) map.get("commandArea");
+        master = (JFrame) map.get("master");
+        _map = map;
+
+        input = _input;
+        keyFile = _keyFile;
+        password = _password;
+        encrypt = _encrypt;
+    }
 
     /* employs the a Playfair-FourSquare Encryption Technique */
     public static List<AsciiPair> playfairFoursquareCipher(
@@ -29,57 +57,16 @@ public class EncryptionMatrixMkII {
                                 int[][] key2,
                                 boolean encrypt) throws Exception
     {
-        ExecutorService executorService =
-                Executors.newCachedThreadPool();
-
-        CompletionService<ThreadedAsciiPair> completionService =
-                new ExecutorCompletionService<ThreadedAsciiPair>(executorService);
-
-        AsciiPair[] output = new AsciiPair[input.size()];
-
-
-        if(encrypt) {
-            for (int i = 0; i < input.size(); i++) {
-
-                EncryptPair thread = new EncryptPair(input.get(i),
-                        alphabet,
-                        key1,
-                        key2,
-                        i);
-
-                completionService.submit(thread);
-            }
-        }
-
-        else
-        {
-            for (int i = 0; i < input.size(); i++) {
-
-                DecryptPair thread = new DecryptPair(input.get(i),
-                        alphabet,
-                        key1,
-                        key2,
-                        i);
-
-                completionService.submit(thread);
-            }
-        }
-
-        int complete = 0;
-
-        while(complete < input.size())
-        {
-            Future<ThreadedAsciiPair> outPair = completionService.take();
-
-            output[outPair.get().index] = outPair.get().asciiPair;
-
-            complete++;
-        }
-
-        return Arrays.asList(output);
+        return EncryptionMatrixMkII.playfairFoursquareCipher(
+                input,
+                alphabet,
+                key1,
+                key2,
+                encrypt
+        );
     }
 
-    public static List<AsciiPair> cyclePlayFairFoursquareCipher(
+    public List<AsciiPair> cyclePlayFairFoursquareCipher(
             List<AsciiPair> asciiArray,
             List<List<Integer>> keyArray,
             boolean encrypt) throws Exception
@@ -93,6 +80,8 @@ public class EncryptionMatrixMkII {
 
         if(encrypt)
         {
+            publish("Beginning Grid Encryption...\n");
+
             for (int i = 0; i < ((keyArray.size()) / 2); i++) {
                 int[][] key1 = EncryptionUtilities
                         .asciiArrayToIntGrid(keyArray.get(i * 2));
@@ -104,11 +93,19 @@ public class EncryptionMatrixMkII {
                         key1,
                         key2,
                         encrypt);
+
+                publish("Completed Loop " +
+                        (i+1) + "/" + (keyArray.size()/2) +
+                        " of Grid Encryption\n");
             }
+
+            publish("Finished Grid Encryption\n");
         }
 
         else
         {
+            publish("Beginning Grid Decryption...\n");
+
             for(int i = ((keyArray.size()/2)-1); i >= 0; i--) {
 
                 int[][] key1 = EncryptionUtilities
@@ -122,8 +119,12 @@ public class EncryptionMatrixMkII {
                         key2,
                         encrypt);
 
+                publish("Completed Loop " +
+                        ((keyArray.size()/2)-i) + "/" + (keyArray.size()/2) +
+                        " of Grid Decryption\n");
             }
 
+            publish("Finished Grid Decryption\n");
         }
 
         return processedArray;
@@ -141,10 +142,12 @@ public class EncryptionMatrixMkII {
 
         encryption and decryption are the same operation!
     */
-    public static ArrayList<Integer> xorCipher(
+    public ArrayList<Integer> xorCipher(
                                 String password,
                                 List<List<Integer>> keyfile,
                                 List<Integer> binaryArray) throws Exception {
+
+        publish("Beginning Xor...\n");
 
         DecimalFormat fmt = new DecimalFormat("#");
         List<Integer> asciiArray = EncryptionUtilities.stringToAsciiArray(password);
@@ -154,7 +157,12 @@ public class EncryptionMatrixMkII {
 
         // ensure unique xor generation per unique password-keyfile combo
 
+
+        publish("Beginning Password Encryption...\n");
+
         asciiPairArray = cyclePlayFairFoursquareCipher(asciiPairArray, keyfile, true);
+
+        publish("Finished Password Encryption\n");
 
         asciiArray = EncryptionUtilities.asciiPairArrayToAsciiArray(asciiPairArray);
 
@@ -197,59 +205,19 @@ public class EncryptionMatrixMkII {
             );
         }
 
+        publish("Finished Xor\n");
+
         return outputArray;
     }
 
     public static List<List<Integer>> keyFileGenerator(int numberToGenerate)
     {
-        Random randomCountGenerator = new Random();
-
-        long randomSeed = -1;
-
-        while(randomSeed < 0)
-        {
-            for (int i = 0; i < randomCountGenerator.nextInt(100); i++) {
-                Random loopGenerator = new Random();
-
-                randomSeed = loopGenerator.nextLong();
-            }
-        }
-
-        Random reallyRandomGenerator = new Random(randomSeed);
-
-        List<Integer> choices = new ArrayList<>();
-        List<Integer> currentChoices = new ArrayList<>();
-
-        for(int i = 0; i < 256; i++)
-        {
-            choices.add(i);
-        }
-
-        List<List<Integer>> keyFile = new ArrayList<>();
-
-        for(int i = 0; i < numberToGenerate; i++)
-        {
-            currentChoices.addAll(choices);
-            List<Integer> key = new ArrayList<>();
-
-            // build key
-            for(int j = 256; j > 0; j--)
-            {
-                int position = reallyRandomGenerator.nextInt(j);
-
-                key.add(currentChoices.get(position));
-
-                currentChoices.remove(position);
-            }
-
-            // add key to list
-            keyFile.add(key);
-        }
-
-        return keyFile;
+        return EncryptionMatrixMkII.keyFileGenerator(numberToGenerate);
     }
 
-    public static String encryptSequence(String input, List<List<Integer>> keyFile, String password) throws Exception {
+    public String encryptSequence(String input, List<List<Integer>> keyFile, String password) throws Exception {
+
+        publish("Beginning Encryption...\n");
 
         List<Integer> asciiArray =
                 EncryptionUtilities.stringToAsciiArray(input);
@@ -267,10 +235,14 @@ public class EncryptionMatrixMkII {
 
         binaryArray = xorCipher(password, keyFile, binaryArray);
 
+        publish("Finished Encryption, printing to screen...\n");
+
         return EncryptionUtilities.binaryArrayToBinaryString(binaryArray);
     }
 
-    public static String decryptSequence(String input, List<List<Integer>> keyFile, String password) throws Exception {
+    public String decryptSequence(String input, List<List<Integer>> keyFile, String password) throws Exception {
+
+        publish("Beginning Decryption...\n");
 
         List<Integer> binaryArray = EncryptionUtilities
                 .binaryStringToBinaryArray(input);
@@ -287,6 +259,51 @@ public class EncryptionMatrixMkII {
 
         asciiArray = EncryptionUtilities.asciiPairArrayToAsciiArray(asciiPairArray);
 
+        publish("Finished Decryption, printing to screen...\n");
+
         return EncryptionUtilities.asciiArrayToString(asciiArray);
+    }
+
+    @Override
+    protected String doInBackground() throws Exception {
+
+        String toReturn;
+
+        if(encrypt)
+        {
+            toReturn = encryptSequence(input, keyFile, password);
+        }
+
+        else
+        {
+            toReturn = decryptSequence(input, keyFile, password);
+        }
+
+        return toReturn;
+    }
+
+    @Override
+    protected void process(List<String> item)
+    {
+        for(String s : item)
+        {
+            commandArea.append(s);
+            commandArea.setCaretPosition(commandArea.getDocument().getLength());
+        }
+    }
+
+    @Override
+    protected void done()
+    {
+        try {
+            textArea.setText(this.get());
+
+            SwingUtilities.enableButtonInput(_map);
+
+            master.setCursor(
+                    Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
+
+        catch (InterruptedException | ExecutionException e) {}
     }
 }

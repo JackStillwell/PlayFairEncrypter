@@ -5,7 +5,6 @@ import java.util.concurrent.Callable;
 public class EncryptPair implements Callable<ThreadedAsciiPair> {
 
     private static final int __GRIDSIZE__ = 16;
-    private Thread t;
 
     private AsciiPair input;
     private int[][] alphabet;
@@ -56,6 +55,8 @@ public class EncryptPair implements Callable<ThreadedAsciiPair> {
         encryptedLetter1 = key1[letter2Row][letter1Column];
         encryptedLetter2 = key2[letter1Row][letter2Column];
 
-        return new ThreadedAsciiPair(new AsciiPair(encryptedLetter1,encryptedLetter2), location);
+        return new ThreadedAsciiPair(
+                new AsciiPair(encryptedLetter1,encryptedLetter2),
+                location);
     }
 }

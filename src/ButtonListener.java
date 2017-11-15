@@ -8,10 +8,14 @@ import java.util.List;
 public class ButtonListener implements ActionListener {
 
     HashMap<String, Component> _map;
+    JTextArea textArea;
+    JFrame master;
 
     public ButtonListener(HashMap<String, Component> map)
     {
         _map = map;
+        textArea = (JTextArea) map.get("textArea");
+        master = (JFrame) map.get("master");
     }
 
     @Override
@@ -34,16 +38,39 @@ public class ButtonListener implements ActionListener {
             switch (source) {
                 case "lockEncryptButton": {
 
-                    ((JTextArea) _map.get("textArea")).setText(
-                            EncryptionMatrixMkII.encryptSequence(content,keys,password));
+                    master.setCursor(
+                            Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+                    SwingUtilities.disableButtonInput(_map);
+
+                    SwingWorker<String, String> sW =
+                            new EncryptionMatrixMkIISwingWorker(
+                                    _map,
+                                    content,
+                                    keys,
+                                    password,
+                                    true);
+
+                    sW.execute();
                 }
                 break;
 
                 case "unlockDecryptButton" : {
 
-                    ((JTextArea) _map.get("textArea")).setText(
-                           EncryptionMatrixMkII.decryptSequence(content,keys,password));
+                    master.setCursor(
+                            Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
+                    SwingUtilities.disableButtonInput(_map);
+
+                    SwingWorker<String, String> sW =
+                            new EncryptionMatrixMkIISwingWorker(
+                                    _map,
+                                    content,
+                                    keys,
+                                    password,
+                                    false);
+
+                    sW.execute();
                 } break;
             }
         }
