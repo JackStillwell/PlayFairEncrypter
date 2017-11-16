@@ -63,7 +63,9 @@ public class MainWindow
 
         ((JButton) componentMap.get("lockEncryptButton")).addActionListener(buttonListener);
         ((JButton) componentMap.get("unlockDecryptButton")).addActionListener(buttonListener);
-
+        ((JMenu) componentMap.get("helpMenu")).addActionListener(buttonListener);
+        ((JMenu) componentMap.get("aboutMenu")).addActionListener(buttonListener);
+        ((JButton) componentMap.get("keyFileChooser")).addActionListener(buttonListener);
 
         if(GUI_DEBUG)
         {

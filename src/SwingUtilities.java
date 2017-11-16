@@ -1,18 +1,23 @@
 import java.awt.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
+import java.util.List;
 
 public class SwingUtilities {
 
     public static void disableButtonInput(HashMap<String, Component> map)
     {
 
-        Set<String> toDisable = map.keySet();
+        List<String> toDisable = new ArrayList<String>();
 
-        toDisable.remove("master");
-        toDisable.remove("commandArea");
-        toDisable.remove("File");
+        toDisable.add("unlockDecryptButton");
+        toDisable.add("lockEncryptButton");
+        toDisable.add("textArea");
+        toDisable.add("fileMenu");
+        toDisable.add("keyFilePathField");
+        toDisable.add("keyFileChooser");
+        toDisable.add("passwordField");
+        toDisable.add("helpMenu");
+        toDisable.add("aboutMenu");
 
         for(String k : toDisable)
         {
@@ -22,11 +27,17 @@ public class SwingUtilities {
 
     public static void enableButtonInput(HashMap<String, Component> map)
     {
-        Set<String> toEnable = map.keySet();
+        List<String> toEnable = new ArrayList<>();
 
-        toEnable.remove("master");
-        toEnable.remove("commandArea");
-        toEnable.remove("File");
+        toEnable.add("unlockDecryptButton");
+        toEnable.add("lockEncryptButton");
+        toEnable.add("textArea");
+        toEnable.add("fileMenu");
+        toEnable.add("keyFilePathField");
+        toEnable.add("keyFileChooser");
+        toEnable.add("passwordField");
+        toEnable.add("helpMenu");
+        toEnable.add("aboutMenu");
 
         for(String k : toEnable)
         {

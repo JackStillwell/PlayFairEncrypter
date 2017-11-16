@@ -131,6 +131,7 @@ public class Builder {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("File");
+        fileMenu.setName("fileMenu");
 
         JMenu helpMenu = new JMenu("Help");
         helpMenu.setName("helpMenu");

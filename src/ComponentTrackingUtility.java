@@ -5,6 +5,7 @@
 */
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +25,31 @@ public class ComponentTrackingUtility {
 
             compList.add(comp);
 
-            if (comp instanceof Container) {
+            if(comp instanceof MenuElement)
+            {
+                compList.addAll(getAllComponents((MenuElement) comp));
+            }
+
+            else if (comp instanceof Container) {
                 compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+
+        return compList;
+    }
+
+    static java.util.List<Component> getAllComponents(final MenuElement c) {
+
+        MenuElement[] comps = c.getSubElements();
+        java.util.List<Component> compList = new ArrayList<Component>();
+
+        for (MenuElement comp : comps) {
+
+            compList.add((Component) comp);
+
+            if(comp != null)
+            {
+                compList.addAll(getAllComponents((MenuElement) comp));
             }
         }
 
