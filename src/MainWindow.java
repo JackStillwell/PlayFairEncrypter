@@ -67,6 +67,16 @@ public class MainWindow
         ((JMenu) componentMap.get("aboutMenu")).addActionListener(buttonListener);
         ((JButton) componentMap.get("keyFileChooser")).addActionListener(buttonListener);
 
+        RequiredFieldListener requiredFieldListener = new RequiredFieldListener(componentMap);
+
+        ((JTextArea) componentMap.get("textArea")).addKeyListener(requiredFieldListener);
+        ((JPasswordField) componentMap.get("passwordField")).addKeyListener(requiredFieldListener);
+
+        // Set up all default stuff
+
+        ((JButton) componentMap.get("lockEncryptButton")).setEnabled(false);
+        ((JButton) componentMap.get("unlockDecryptButton")).setEnabled(false);
+
         if(GUI_DEBUG)
         {
             try {

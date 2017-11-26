@@ -10,6 +10,8 @@
 import javax.swing.*;
 import javax.swing.text.Caret;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
@@ -26,6 +28,8 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
     private JTextArea commandArea;
     private JFrame master;
     HashMap<String, Component> _map;
+    private ProgressDialog _progressDialog;
+
     private String input;
     List<List<Integer>> keyFile;
     String password;
@@ -33,15 +37,26 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
 
 
     public EncryptionMatrixMkIISwingWorker(HashMap<String, Component> map,
+                                           ProgressDialog progressDialog,
                                            String _input,
                                            List<List<Integer>> _keyFile,
                                            String _password,
                                            boolean _encrypt)
     {
+        addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if("progress".equals(evt.getPropertyName())){
+                    progressDialog.progressBar.setValue((Integer) evt.getNewValue());
+                }
+            }
+        });
+
         textArea = (JTextArea) map.get("textArea");
         commandArea = (JTextArea) map.get("commandArea");
         master = (JFrame) map.get("master");
         _map = map;
+        _progressDialog = progressDialog;
 
         input = _input;
         keyFile = _keyFile;
@@ -97,6 +112,9 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
                 publish("Completed Loop " +
                         (i+1) + "/" + (keyArray.size()/2) +
                         " of Grid Encryption\n");
+
+                setProgress(_progressDialog.progressBar.getValue() +
+                        (70/(keyArray.size()/2)));
             }
 
             publish("Finished Grid Encryption\n");
@@ -122,6 +140,9 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
                 publish("Completed Loop " +
                         ((keyArray.size()/2)-i) + "/" + (keyArray.size()/2) +
                         " of Grid Decryption\n");
+
+                setProgress(_progressDialog.progressBar.getValue() +
+                        (70/(keyArray.size()/2)));
             }
 
             publish("Finished Grid Decryption\n");
@@ -147,6 +168,11 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
                                 List<List<Integer>> keyfile,
                                 List<Integer> binaryArray) throws Exception {
 
+        if(password.length() == 0)
+        {
+            throw new Exception("Please enter a password");
+        }
+
         publish("Beginning Xor...\n");
 
         DecimalFormat fmt = new DecimalFormat("#");
@@ -157,12 +183,17 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
 
         // ensure unique xor generation per unique password-keyfile combo
 
+        int progressDisplay = _progressDialog.progressBar.getValue();
 
         publish("Beginning Password Encryption...\n");
 
         asciiPairArray = cyclePlayFairFoursquareCipher(asciiPairArray, keyfile, true);
 
         publish("Finished Password Encryption\n");
+
+        setProgress(progressDisplay);
+
+        setProgress(_progressDialog.progressBar.getValue() + 10);
 
         asciiArray = EncryptionUtilities.asciiPairArrayToAsciiArray(asciiPairArray);
 
@@ -174,7 +205,7 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
         String passwordNumString = passwordNumStringBuilder.toString();
         int passwordNumStringLength = passwordNumString.length();
 
-        Float passwordNumFloat = Float.valueOf(passwordNumString);
+        Float passwordNumFloat = Float.parseFloat(passwordNumString);
 
         passwordNumString = fmt.format(passwordNumFloat);
 
@@ -206,6 +237,8 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
         }
 
         publish("Finished Xor\n");
+
+        setProgress(_progressDialog.progressBar.getValue() + 20);
 
         return outputArray;
     }
@@ -296,7 +329,10 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
     protected void done()
     {
         try {
+
             textArea.setText(this.get());
+
+            _progressDialog.hide();
 
             SwingUtilities.enableButtonInput(_map);
 
@@ -304,6 +340,13 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
                     Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
         }
 
-        catch (InterruptedException | ExecutionException e) {}
+        catch (InterruptedException | ExecutionException e) {
+            commandArea.append(e.toString());
+
+            _progressDialog.hide();
+
+            SwingUtilities.enableButtonInput(_map);
+            master.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
     }
 }

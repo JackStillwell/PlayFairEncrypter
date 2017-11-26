@@ -43,13 +43,20 @@ public class ButtonListener implements ActionListener {
 
                     SwingUtilities.disableButtonInput(_map);
 
+                    ProgressDialog progressDialog = new ProgressDialog(master);
+
+                    _map.put("progressBar", progressDialog.progressBar);
+
                     SwingWorker<String, String> sW =
                             new EncryptionMatrixMkIISwingWorker(
                                     _map,
+                                    progressDialog,
                                     content,
                                     keys,
                                     password,
                                     true);
+
+                    progressDialog.display();
 
                     sW.execute();
                 }
@@ -60,18 +67,30 @@ public class ButtonListener implements ActionListener {
                     master.setCursor(
                             Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
+                    ProgressDialog progressDialog = new ProgressDialog(master);
+
+                    _map.put("progressBar", progressDialog.progressBar);
+
                     SwingUtilities.disableButtonInput(_map);
 
                     SwingWorker<String, String> sW =
                             new EncryptionMatrixMkIISwingWorker(
                                     _map,
+                                    progressDialog,
                                     content,
                                     keys,
                                     password,
                                     false);
 
+                    progressDialog.display();
+
                     sW.execute();
                 } break;
+
+                case "loadButton" :
+                {
+
+                }
             }
         }
 
