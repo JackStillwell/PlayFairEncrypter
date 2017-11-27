@@ -65,6 +65,9 @@ public class MenuListener implements MouseListener {
                 CreateKeyFileDialog dialog = new CreateKeyFileDialog(_map);
 
                 dialog.display();
+
+                //TODO: enable and disable buttons
+                //SwingUtilities.disableButtonInput(_map);
             } break;
 
             case "loadButton" :

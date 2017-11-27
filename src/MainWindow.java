@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -20,17 +22,26 @@ public class MainWindow
     static final boolean DEBUG = false;
     static final boolean GUI_DEBUG = false;
 
-    private static void bootSequence()
+    private static void bootSequence(HashMap<String, Component> map) throws Exception
     {
         // check for boot file
-        File bootfile = new File("./.DontPlayFairBootFile");
+        File bootfile = new File(".DontPlayFairBootFile");
 
         if(bootfile.exists())
         {
+            String keyFilePath = IO_Utilities.readTextFile(bootfile.getPath());
 
+            ((JTextField) map.get("keyFilePathField")).setText(keyFilePath);
         }
 
-        // check for keyfile folder
+        else
+        {
+            CreateKeyFileDialog d = new CreateKeyFileDialog(map);
+
+            d.display();
+
+            SwingUtilities.disableButtonInput(map);
+        }
     }
 
     private Component createComponents()
@@ -40,7 +51,7 @@ public class MainWindow
 
     public static void main(String[] args) {
 
-        if(args.length > 1 || DEBUG) // handle command line use
+        if (args.length > 1 || DEBUG) // handle command line use
         {
             handleCommandLine(args);
             return;
@@ -78,8 +89,10 @@ public class MainWindow
 
         ((JButton) componentMap.get("lockEncryptButton")).addActionListener(buttonListener);
         ((JButton) componentMap.get("unlockDecryptButton")).addActionListener(buttonListener);
-        ((JMenu) componentMap.get("helpMenu")).addActionListener(buttonListener);
-        ((JMenu) componentMap.get("aboutMenu")).addActionListener(buttonListener);
+
+        //TODO: reenable and implement about and help menus
+//        ((JMenu) componentMap.get("helpMenu")).addActionListener(buttonListener);
+//        ((JMenu) componentMap.get("aboutMenu")).addActionListener(buttonListener);
         ((JButton) componentMap.get("keyFileChooser")).addActionListener(buttonListener);
 
         MouseListener menuListener = new MenuListener(componentMap);
@@ -101,6 +114,27 @@ public class MainWindow
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+
+        // TODO: complete bootup and shutdown operations
+        ((JTextField) componentMap.get("keyFilePathField")).setText("No KeyFile Selected");
+
+        /* frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+
+                try {
+                    IO_Utilities.writeTextFile(".DontPlayFairBootFile", ((JTextField) componentMap.get("keyFilePathField")).getText());
+                }
+
+                catch (Exception x)
+                {
+                    // do nothing
+                }
+            }
+        });
+
+        try{bootSequence(componentMap);}catch(Exception x){} */
+
         frame.setVisible(true);
     }
 

@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class CreateKeyFileDialog {
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
 
+        // TODO: make the default setting actually do something
         JLabel defaultKeyFileLabel = new JLabel("Default: ");
         JRadioButton yesRadioButton = new JRadioButton("Yes");
         JRadioButton noRadioButton = new JRadioButton("No");
@@ -58,6 +61,7 @@ public class CreateKeyFileDialog {
 
                                 frame.setVisible(false);
                                 frame.dispose();
+
                                 return null;
                             }
 
@@ -93,6 +97,15 @@ public class CreateKeyFileDialog {
         frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(_map.get("master"));
         frame.pack();
+
+        //TODO: enable and disable buttons
+
+        /* frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                SwingUtilities.enableButtonInput(_map);
+            }
+        }); */
     }
 
     public void display()

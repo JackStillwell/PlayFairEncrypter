@@ -4,6 +4,17 @@ import java.awt.*;
 
 public class Builder {
 
+
+    /* Commonly used GridBagConstraints */
+    private static GridBagConstraints GridBagFillHorizontal()
+    {
+        GridBagConstraints toReturn = new GridBagConstraints();
+        toReturn.weightx = 1;
+        toReturn.fill = GridBagConstraints.HORIZONTAL;
+
+        return toReturn;
+    }
+
     public static Component buildRightSide()
     {
         JPanel master = new JPanel();
@@ -17,12 +28,12 @@ public class Builder {
 
         JLabel passwordLabel = new JLabel("Password");
 
-        JPasswordField passwordField = new JPasswordField();
+        JPasswordField passwordField = new JPasswordField(20);
         passwordField.setName("passwordField");
 
         JLabel keyFileLabel = new JLabel("KeyFile");
 
-        JButton keyFileChooser = new JButton("FileChooser");
+        JButton keyFileChooser = new JButton("Choose KeyFile");
         keyFileChooser.setName("keyFileChooser");
 
         JTextField keyFilePathField = new JTextField();
@@ -38,20 +49,23 @@ public class Builder {
         JPanel encryptDecryptButtonPanel = new JPanel();
 
         encryptDecryptButtonPanel.setLayout(
-                new GridLayout(1,2,10,10)
+                new GridBagLayout()
         );
 
-        encryptDecryptButtonPanel.add(lockEncryptButton);
-        encryptDecryptButtonPanel.add(unlockDecryptButton);
+        GridBagConstraints fillHorizontal = GridBagFillHorizontal();
+        fillHorizontal.insets = new Insets(0,5,0,5);
+
+        encryptDecryptButtonPanel.add(lockEncryptButton, fillHorizontal);
+        encryptDecryptButtonPanel.add(unlockDecryptButton, fillHorizontal);
 
         // build password
 
         JPanel passwordPanel = new JPanel();
 
-        passwordPanel.setLayout(new GridLayout(2,1,10,10));
+        passwordPanel.setLayout(new GridBagLayout());
 
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordField);
+        passwordPanel.add(passwordLabel, fillHorizontal);
+        passwordPanel.add(passwordField, fillHorizontal);
 
         // build KeyFile
 
@@ -60,8 +74,14 @@ public class Builder {
         keyFilePanel.setLayout(new BorderLayout(10,10));
 
         keyFilePanel.add(keyFileLabel, BorderLayout.NORTH);
-        keyFilePanel.add(keyFileChooser, BorderLayout.WEST);
-        keyFilePanel.add(keyFilePathField, BorderLayout.CENTER);
+
+        JPanel keyFilePathPanel = new JPanel();
+        keyFilePathPanel.setLayout(new GridBagLayout());
+
+        keyFilePathPanel.add(keyFileChooser, fillHorizontal);
+        keyFilePathPanel.add(keyFilePathField, fillHorizontal);
+
+        keyFilePanel.add(keyFilePathPanel, BorderLayout.CENTER);
 
         // build KeyFile Level
 
@@ -157,8 +177,10 @@ public class Builder {
         fileMenu.add(createKeyfile);
 
         menuBar.add(fileMenu);
-        menuBar.add(helpMenu);
-        menuBar.add(aboutMenu);
+
+        //TODO: readd and implement help and about menus
+        //menuBar.add(helpMenu);
+        //menuBar.add(aboutMenu);
 
         master.add(menuBar);
 

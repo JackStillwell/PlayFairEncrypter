@@ -16,8 +16,8 @@ public class SwingUtilities {
         toDisable.add("keyFilePathField");
         toDisable.add("keyFileChooser");
         toDisable.add("passwordField");
-        toDisable.add("helpMenu");
-        toDisable.add("aboutMenu");
+        //toDisable.add("helpMenu");
+        //toDisable.add("aboutMenu");
 
         for(String k : toDisable)
         {
@@ -36,8 +36,8 @@ public class SwingUtilities {
         toEnable.add("keyFilePathField");
         toEnable.add("keyFileChooser");
         toEnable.add("passwordField");
-        toEnable.add("helpMenu");
-        toEnable.add("aboutMenu");
+        //toEnable.add("helpMenu");
+        //toEnable.add("aboutMenu");
 
         for(String k : toEnable)
         {

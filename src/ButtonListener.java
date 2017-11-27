@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ButtonListener implements ActionListener {
 
             String keyFilePath = ((JTextField) _map.get("keyFilePathField")).getText();
 
-            List<List<Integer>> keys = IO_Utilities.readKeyFile(keyFilePath);
+            List<List<Integer>> keys;
 
             String password = String.valueOf(
                     ((JPasswordField) _map.get("passwordField")).getPassword()
@@ -47,6 +48,17 @@ public class ButtonListener implements ActionListener {
                     ProgressDialog progressDialog = new ProgressDialog(master);
 
                     _map.put("progressBar", progressDialog.progressBar);
+
+                    try {
+                        keys = IO_Utilities.readKeyFile(keyFilePath);
+                    }
+                    catch (Exception x)
+                    {
+                        SwingUtilities.enableButtonInput(_map);
+                        master.setCursor(
+                            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        throw new Exception("KeyFile Not Found");
+                    }
 
                     SwingWorker<String, String> sW =
                             new EncryptionMatrixMkIISwingWorker(
@@ -73,6 +85,17 @@ public class ButtonListener implements ActionListener {
                     _map.put("progressBar", progressDialog.progressBar);
 
                     SwingUtilities.disableButtonInput(_map);
+
+                    try {
+                        keys = IO_Utilities.readKeyFile(keyFilePath);
+                    }
+                    catch (Exception x)
+                    {
+                        SwingUtilities.enableButtonInput(_map);
+                        master.setCursor(
+                            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                        throw new Exception("KeyFile Not Found");
+                    }
 
                     SwingWorker<String, String> sW =
                             new EncryptionMatrixMkIISwingWorker(
