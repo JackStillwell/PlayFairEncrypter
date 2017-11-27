@@ -183,17 +183,11 @@ public class EncryptionMatrixMkIISwingWorker extends SwingWorker<String,String> 
 
         // ensure unique xor generation per unique password-keyfile combo
 
-        int progressDisplay = _progressDialog.progressBar.getValue();
-
         publish("Beginning Password Encryption...\n");
 
-        asciiPairArray = cyclePlayFairFoursquareCipher(asciiPairArray, keyfile, true);
+        asciiPairArray = EncryptionMatrixMkII.cyclePlayFairFoursquareCipher(asciiPairArray, keyfile, true);
 
         publish("Finished Password Encryption\n");
-
-        setProgress(progressDisplay);
-
-        setProgress(_progressDialog.progressBar.getValue() + 10);
 
         asciiArray = EncryptionUtilities.asciiPairArrayToAsciiArray(asciiPairArray);
 

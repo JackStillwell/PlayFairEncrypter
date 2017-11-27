@@ -7,25 +7,33 @@ import java.util.List;
 
 public class CreateKeyFileDialog {
 
-    private JFrame frame;
+    private JDialog frame;
     HashMap<String, Component> _map;
 
-    public CreateKeyFileDialog() {
-        frame = new JFrame("Create KeyFile");
+    public CreateKeyFileDialog(HashMap<String, Component> map) {
+
+        _map = map;
+
+        frame = new JDialog(((JFrame)_map.get("master")), "Create KeyFile");
 
         JPanel master = new JPanel();
 
         master.setLayout(new FlowLayout());
 
         JLabel keyFileNameLabel = new JLabel("Name: ");
-        JTextField keyFileNameField = new JTextField();
+        JTextField keyFileNameField = new JTextField(20);
         keyFileNameField.setName("keyFileNameField");
 
         JLabel levelsOfEncryptionLabel = new JLabel("Levels of Encryption: ");
-        //TODO: add a slider allowing the user to choose between 2 and 10
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 2, 10, 2);
+        slider.setMajorTickSpacing(4);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
 
         JLabel defaultKeyFileLabel = new JLabel("Default: ");
-        //TODO: add radio buttons for yes and no
+        JRadioButton yesRadioButton = new JRadioButton("Yes");
+        JRadioButton noRadioButton = new JRadioButton("No");
 
         JButton createKeyFileButton = new JButton("Create");
         createKeyFileButton.setName("createKeyFileButton");
@@ -36,15 +44,26 @@ public class CreateKeyFileDialog {
 
                 try {
                     if (keyFileNameField.getText().length() != 0) {
-                        List<List<Integer>> key =
-                                EncryptionMatrixMkII.keyFileGenerator(
-                                        /* slider int */0
-                                );
 
-                        IO_Utilities.writeKeyFile(key, "./keyFile/" +
-                                keyFileNameField.getText());
+                        SwingWorker<Void,Void> swingWorker = new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                List<List<Integer>> key =
+                                        EncryptionMatrixMkII.keyFileGenerator(
+                                                slider.getValue()*2
+                                        );
 
+                                IO_Utilities.writeKeyFile(key,
+                                        keyFileNameField.getText());
 
+                                frame.setVisible(false);
+                                frame.dispose();
+                                return null;
+                            }
+
+                        };
+
+                        swingWorker.execute();
                     }
 
                     else
@@ -55,14 +74,24 @@ public class CreateKeyFileDialog {
 
                 catch(Exception x)
                 {
-                    // print exception to command area
+                    ((JTextArea) _map.get("commandArea")).append("Creating KeyFile Error: " + x + "\n");
                 }
             }
         });
 
+        master.add(keyFileNameLabel);
+        master.add(keyFileNameField);
+        master.add(levelsOfEncryptionLabel);
+        master.add(slider);
+        master.add(defaultKeyFileLabel);
+        master.add(yesRadioButton);
+        master.add(noRadioButton);
+        master.add(createKeyFileButton);
+
         _map = ComponentTrackingUtility.buildComponentMap(master);
         frame.getContentPane().add(master);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(_map.get("master"));
         frame.pack();
     }
 
@@ -73,6 +102,7 @@ public class CreateKeyFileDialog {
 
     public void hide()
     {
-
+        frame.setVisible(false);
+        frame.dispose();
     }
 }

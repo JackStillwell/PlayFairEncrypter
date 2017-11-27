@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -87,10 +88,38 @@ public class ButtonListener implements ActionListener {
                     sW.execute();
                 } break;
 
-                case "loadButton" :
+                case "keyFileChooser" :
                 {
+                    JFileChooser fileChooser = new JFileChooser(new File("."));
 
-                }
+                    int returnval = fileChooser.showOpenDialog(_map.get("master"));
+
+                    if(returnval == JFileChooser.APPROVE_OPTION)
+                    {
+                        File file = fileChooser.getSelectedFile();
+
+                        String newKeyFilePath = file.getPath();
+
+                        try
+                        {
+                            List<List<Integer>> newKeys = IO_Utilities.readKeyFile(newKeyFilePath);
+
+                            ((JLabel) _map.get("levelDisplay")).setText(newKeys.size()/2 + "");
+
+                            ((JTextField) _map.get("keyFilePathField")).setText(file.getPath());
+                        }
+
+                        catch(Exception x)
+                        {
+                            ((JTextArea) _map.get("commandArea")).append("Error loading keyfile: " + x + "\n");
+                        }
+                    }
+
+                    else
+                    {
+                        ((JTextArea) _map.get("commandArea")).append("Load KeyFile Operation Cancelled\n");
+                    }
+                } break;
             }
         }
 

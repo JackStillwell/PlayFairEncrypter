@@ -10,13 +10,28 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainWindow
 {
     static final boolean DEBUG = false;
-    static final boolean GUI_DEBUG = true;
+    static final boolean GUI_DEBUG = false;
+
+    private static void bootSequence()
+    {
+        // check for boot file
+        File bootfile = new File("./.DontPlayFairBootFile");
+
+        if(bootfile.exists())
+        {
+
+        }
+
+        // check for keyfile folder
+    }
 
     private Component createComponents()
     {
@@ -67,6 +82,13 @@ public class MainWindow
         ((JMenu) componentMap.get("aboutMenu")).addActionListener(buttonListener);
         ((JButton) componentMap.get("keyFileChooser")).addActionListener(buttonListener);
 
+        MouseListener menuListener = new MenuListener(componentMap);
+
+        ((JMenuItem) componentMap.get("selectKeyFileButton")).addMouseListener(menuListener);
+        ((JMenuItem) componentMap.get("createKeyFileButton")).addMouseListener(menuListener);
+        ((JMenuItem) componentMap.get("loadButton")).addMouseListener(menuListener);
+        ((JMenuItem) componentMap.get("saveButton")).addMouseListener(menuListener);
+
         RequiredFieldListener requiredFieldListener = new RequiredFieldListener(componentMap);
 
         ((JTextArea) componentMap.get("textArea")).addKeyListener(requiredFieldListener);
@@ -76,28 +98,6 @@ public class MainWindow
 
         ((JButton) componentMap.get("lockEncryptButton")).setEnabled(false);
         ((JButton) componentMap.get("unlockDecryptButton")).setEnabled(false);
-
-        if(GUI_DEBUG)
-        {
-            try {
-                ((JTextField) componentMap.get("keyFilePathField")).setText("src/keyfile.dpfk");
-
-                String keyFilePath = ((JTextField) componentMap.get("keyFilePathField")).getText();
-
-                List<List<Integer>> keys = IO_Utilities.readKeyFile(keyFilePath);
-
-                ((JLabel) componentMap.get("levelDisplay")).setText(
-                        keys.size() / 2 + ""
-                );
-            }
-
-            catch(Exception x)
-            {
-                ((JTextArea) componentMap.get("commandArea")).append(
-                        x.toString() + "\n"
-                );
-            }
-        }
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
