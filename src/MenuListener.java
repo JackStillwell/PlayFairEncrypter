@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -66,8 +68,14 @@ public class MenuListener implements MouseListener {
 
                 dialog.display();
 
-                //TODO: enable and disable buttons
-                //SwingUtilities.disableButtonInput(_map);
+                dialog.frame.addWindowListener(new WindowAdapter() {
+                                                   @Override
+                                                   public void windowClosed(WindowEvent e) {
+                                                       SwingUtilities.enableButtonInput(_map);
+                                                   }
+                                               }
+                );
+                SwingUtilities.disableButtonInput(_map);
             } break;
 
             case "loadButton" :

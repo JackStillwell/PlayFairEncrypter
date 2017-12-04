@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CreateKeyFileDialog {
 
-    private JDialog frame;
+    JDialog frame;
     HashMap<String, Component> _map;
 
     public CreateKeyFileDialog(HashMap<String, Component> map) {
@@ -97,15 +97,6 @@ public class CreateKeyFileDialog {
         frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         frame.setLocationRelativeTo(_map.get("master"));
         frame.pack();
-
-        //TODO: enable and disable buttons
-
-        /* frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                SwingUtilities.enableButtonInput(_map);
-            }
-        }); */
     }
 
     public void display()

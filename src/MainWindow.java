@@ -40,6 +40,13 @@ public class MainWindow
 
             d.display();
 
+            d.frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    SwingUtilities.enableButtonInput(map);
+                }
+            });
+
             SwingUtilities.disableButtonInput(map);
         }
     }
@@ -112,29 +119,28 @@ public class MainWindow
         ((JButton) componentMap.get("lockEncryptButton")).setEnabled(false);
         ((JButton) componentMap.get("unlockDecryptButton")).setEnabled(false);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-
         // TODO: complete bootup and shutdown operations
         ((JTextField) componentMap.get("keyFilePathField")).setText("No KeyFile Selected");
 
-        /* frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e) {
+            public void windowClosed(WindowEvent e) {
 
                 try {
-                    IO_Utilities.writeTextFile(".DontPlayFairBootFile", ((JTextField) componentMap.get("keyFilePathField")).getText());
+                    IO_Utilities.writeTextFile(((JTextField) componentMap.get("keyFilePathField")).getText(), ".DontPlayFairBootFile");
                 }
 
                 catch (Exception x)
                 {
-                    // do nothing
+                    System.out.println(x);
                 }
             }
         });
 
-        try{bootSequence(componentMap);}catch(Exception x){} */
+        try{bootSequence(componentMap);}catch(Exception x){}
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
         frame.setVisible(true);
     }
 

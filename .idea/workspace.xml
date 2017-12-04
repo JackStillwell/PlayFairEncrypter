@@ -24,39 +24,14 @@
       <file leaf-file-name="MainWindow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="92" column="59" lean-forward="false" selection-start-line="92" selection-start-column="59" selection-end-line="92" selection-end-column="59" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RequiredFieldListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/RequiredFieldListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="21" column="52" lean-forward="true" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MenuListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/MenuListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="52" column="107" lean-forward="true" selection-start-line="52" selection-start-column="107" selection-end-line="52" selection-end-column="107" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EncryptionMatrixMkIISwingWorker.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/EncryptionMatrixMkIISwingWorker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2460">
-              <caret line="179" column="69" lean-forward="false" selection-start-line="179" selection-start-column="69" selection-end-line="179" selection-end-column="69" />
-              <folding />
+            <state relative-caret-position="315">
+              <caret line="69" column="35" lean-forward="false" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+              <folding>
+                <element signature="e#972#1168#0" expanded="true" />
+                <element signature="e#1167#1168#0" expanded="true" />
+                <element signature="e#4037#4451#0" expanded="true" />
+                <element signature="e#4450#4451#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,7 +39,7 @@
       <file leaf-file-name="Builder.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Builder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="317">
+            <state relative-caret-position="2670">
               <caret line="180" column="56" lean-forward="false" selection-start-line="180" selection-start-column="56" selection-end-line="180" selection-end-column="56" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -73,10 +48,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ButtonListener.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MenuListener.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/MenuListener.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="280">
+              <caret line="77" column="47" lean-forward="false" selection-start-line="77" selection-start-column="47" selection-end-line="77" selection-end-column="47" />
+              <folding>
+                <element signature="e#2055#2427#0" expanded="true" />
+                <element signature="e#2426#2427#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ButtonListener.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ButtonListener.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
+            <state relative-caret-position="587">
               <caret line="59" column="64" lean-forward="false" selection-start-line="59" selection-start-column="64" selection-end-line="59" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -89,7 +77,7 @@
       <file leaf-file-name="SwingUtilities.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/SwingUtilities.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
+            <state relative-caret-position="471">
               <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
               <folding />
             </state>
@@ -99,12 +87,10 @@
       <file leaf-file-name="CreateKeyFileDialog.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/CreateKeyFileDialog.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="35" column="62" lean-forward="false" selection-start-line="35" selection-start-column="62" selection-end-line="35" selection-end-column="62" />
+            <state relative-caret-position="165">
+              <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
               <folding>
-                <element signature="e#3765#3766#0" expanded="true" />
-                <element signature="e#3803#3804#0" expanded="true" />
-                <marker date="1511767173937" expanded="true" signature="3892:3898" ph="{}" />
+                <marker date="1512403928747" expanded="true" signature="3620:3626" ph="{}" />
               </folding>
             </state>
           </provider>
@@ -170,18 +156,19 @@
         <option value="$PROJECT_DIR$/src/RequiredFieldListener.java" />
         <option value="$PROJECT_DIR$/src/ProgressDialog.java" />
         <option value="$PROJECT_DIR$/src/EncryptionMatrixMkIISwingWorker.java" />
-        <option value="$PROJECT_DIR$/src/MenuListener.java" />
-        <option value="$PROJECT_DIR$/src/CreateKeyFileDialog.java" />
         <option value="$PROJECT_DIR$/src/Builder.java" />
-        <option value="$PROJECT_DIR$/src/MainWindow.java" />
         <option value="$PROJECT_DIR$/src/SwingUtilities.java" />
         <option value="$PROJECT_DIR$/src/ButtonListener.java" />
+        <option value="$PROJECT_DIR$/src/CreateKeyFileDialog.java" />
+        <option value="$PROJECT_DIR$/src/MainWindow.java" />
+        <option value="$PROJECT_DIR$/src/MenuListener.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="x" value="173" />
+    <option name="width" value="1910" />
+    <option name="height" value="810" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -198,6 +185,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -214,8 +203,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -374,11 +361,12 @@
       <workItem from="1511497994737" duration="13179000" />
       <workItem from="1511761762528" duration="133000" />
       <workItem from="1511761909635" duration="6262000" />
+      <workItem from="1512401152282" duration="4087000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="170482000" />
+    <option name="totallyTimeSpent" value="174569000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
@@ -415,19 +403,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/MainWindow.java</url>
-          <line>126</line>
-          <properties />
-          <option name="timeStamp" value="151" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/ButtonListener.java</url>
           <line>52</line>
           <properties />
           <option name="timeStamp" value="153" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="154" />
+      <option name="time" value="158" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -436,7 +418,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2100">
           <caret line="149" column="29" lean-forward="false" selection-start-line="149" selection-start-column="29" selection-end-line="149" selection-end-column="29" />
-          <folding />
+          <folding>
+            <element signature="e#972#1168#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#4037#4451#0" expanded="true" />
+            <element signature="e#4450#4451#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -483,7 +470,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="33" column="38" lean-forward="true" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
-          <folding />
+          <folding>
+            <element signature="e#972#1168#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#4037#4451#0" expanded="true" />
+            <element signature="e#4450#4451#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -506,7 +498,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1380">
           <caret line="98" column="0" lean-forward="true" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#972#1168#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#4037#4451#0" expanded="true" />
+            <element signature="e#4450#4451#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -544,7 +541,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1245">
           <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#972#1168#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#4037#4451#0" expanded="true" />
+            <element signature="e#4450#4451#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -574,7 +576,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="795">
           <caret line="62" column="27" lean-forward="false" selection-start-line="62" selection-start-column="27" selection-end-line="62" selection-end-column="27" />
-          <folding />
+          <folding>
+            <element signature="e#972#1168#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#4037#4451#0" expanded="true" />
+            <element signature="e#4450#4451#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -657,14 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/EncryptionMatrixMkIISwingWorker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2460">
-          <caret line="179" column="69" lean-forward="false" selection-start-line="179" selection-start-column="69" selection-end-line="179" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ProgressDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -676,21 +675,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="450">
           <caret line="82" column="45" lean-forward="false" selection-start-line="82" selection-start-column="45" selection-end-line="82" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/MenuListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="52" column="107" lean-forward="true" selection-start-line="52" selection-start-column="107" selection-end-line="52" selection-end-column="107" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Builder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="317">
+        <state relative-caret-position="2670">
           <caret line="180" column="56" lean-forward="false" selection-start-line="180" selection-start-column="56" selection-end-line="180" selection-end-column="56" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -698,10 +688,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
+    <entry file="file://$PROJECT_DIR$/src/EncryptionMatrixMkIISwingWorker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="92" column="59" lean-forward="false" selection-start-line="92" selection-start-column="59" selection-end-line="92" selection-end-column="59" />
+        <state relative-caret-position="2460">
+          <caret line="179" column="69" lean-forward="false" selection-start-line="179" selection-start-column="69" selection-end-line="179" selection-end-column="69" />
           <folding />
         </state>
       </provider>
@@ -709,38 +699,60 @@
     <entry file="file://$PROJECT_DIR$/src/RequiredFieldListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="21" column="52" lean-forward="true" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+          <caret line="21" column="52" lean-forward="false" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/CreateKeyFileDialog.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="35" column="62" lean-forward="false" selection-start-line="35" selection-start-column="62" selection-end-line="35" selection-end-column="62" />
+        <state relative-caret-position="165">
+          <caret line="18" column="36" lean-forward="true" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
           <folding>
-            <element signature="e#3765#3766#0" expanded="true" />
-            <element signature="e#3803#3804#0" expanded="true" />
-            <marker date="1511767173937" expanded="true" signature="3892:3898" ph="{}" />
+            <marker date="1512403928747" expanded="true" signature="3620:3626" ph="{}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/SwingUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
+        <state relative-caret-position="471">
           <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="10" selection-end-line="39" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="69" column="35" lean-forward="false" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+          <folding>
+            <element signature="e#972#1168#0" expanded="true" />
+            <element signature="e#1167#1168#0" expanded="true" />
+            <element signature="e#4037#4451#0" expanded="true" />
+            <element signature="e#4450#4451#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ButtonListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
+        <state relative-caret-position="587">
           <caret line="59" column="64" lean-forward="false" selection-start-line="59" selection-start-column="64" selection-end-line="59" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
             <marker date="1511767869427" expanded="true" signature="4988:5196" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MenuListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="77" column="47" lean-forward="false" selection-start-line="77" selection-start-column="47" selection-end-line="77" selection-end-column="47" />
+          <folding>
+            <element signature="e#2055#2427#0" expanded="true" />
+            <element signature="e#2426#2427#0" expanded="true" />
           </folding>
         </state>
       </provider>
