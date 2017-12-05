@@ -69,14 +69,17 @@ public class MenuListener implements MouseListener {
                 dialog.display();
 
                 dialog.frame.addWindowListener(new WindowAdapter() {
-                                                   @Override
-                                                   public void windowClosed(WindowEvent e) {
-                                                       SwingUtilities.enableButtonInput(_map);
-                                                   }
-                                               }
+                                           @Override
+                                           public void windowClosed(WindowEvent e) {
+                                               SwingUtilities.enableButtonInput(_map);
+                                               _map.get("lockEncryptButton").setEnabled(false);
+                                               _map.get("unlockDecryptButton").setEnabled(false);
+
+                                           }
+                                       }
                 );
-                SwingUtilities.disableButtonInput(_map);
-            } break;
+            SwingUtilities.disableButtonInput(_map);
+        } break;
 
             case "loadButton" :
             {

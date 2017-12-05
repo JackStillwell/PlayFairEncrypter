@@ -14,9 +14,7 @@ public class CreateKeyFileDialog {
 
     public CreateKeyFileDialog(HashMap<String, Component> map) {
 
-        _map = map;
-
-        frame = new JDialog(((JFrame)_map.get("master")), "Create KeyFile");
+        frame = new JDialog(((JFrame)map.get("master")), "Create KeyFile");
 
         JPanel master = new JPanel();
 
@@ -59,6 +57,13 @@ public class CreateKeyFileDialog {
                                 IO_Utilities.writeKeyFile(key,
                                         keyFileNameField.getText());
 
+                                if(yesRadioButton.isSelected())
+                                {
+                                    JTextField keyFilePath = ((JTextField) map.get("keyFilePathField"));
+                                    String currentText = keyFilePath.getText();
+                                    keyFilePath.setText(keyFileNameField.getText() + ".dpfk");
+                                }
+
                                 frame.setVisible(false);
                                 frame.dispose();
 
@@ -78,7 +83,7 @@ public class CreateKeyFileDialog {
 
                 catch(Exception x)
                 {
-                    ((JTextArea) _map.get("commandArea")).append("Creating KeyFile Error: " + x + "\n");
+                    ((JTextArea) map.get("commandArea")).append("Creating KeyFile Error: " + x + "\n");
                 }
             }
         });
@@ -95,7 +100,7 @@ public class CreateKeyFileDialog {
         _map = ComponentTrackingUtility.buildComponentMap(master);
         frame.getContentPane().add(master);
         frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(_map.get("master"));
+        frame.setLocationRelativeTo(map.get("master"));
         frame.pack();
     }
 

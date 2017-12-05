@@ -44,6 +44,8 @@ public class MainWindow
                 @Override
                 public void windowClosed(WindowEvent e) {
                     SwingUtilities.enableButtonInput(map);
+                    map.get("lockEncryptButton").setEnabled(false);
+                    map.get("unlockDecryptButton").setEnabled(false);
                 }
             });
 
