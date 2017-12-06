@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 
@@ -11,6 +12,15 @@ public class Builder {
         GridBagConstraints toReturn = new GridBagConstraints();
         toReturn.weightx = 1;
         toReturn.fill = GridBagConstraints.HORIZONTAL;
+
+        return toReturn;
+    }
+
+    private static GridBagConstraints GridBagFillVertical()
+    {
+        GridBagConstraints toReturn = new GridBagConstraints();
+        toReturn.weighty = 1;
+        toReturn.fill = GridBagConstraints.VERTICAL;
 
         return toReturn;
     }
@@ -39,6 +49,7 @@ public class Builder {
         JTextField keyFilePathField = new JTextField();
         keyFilePathField.setEditable(false);
         keyFilePathField.setName("keyFilePathField");
+        keyFilePathField.setColumns(20);
 
         JLabel levelLabel = new JLabel("Level");
 
@@ -195,15 +206,30 @@ public class Builder {
 
         JPanel textArea = (JPanel) buildTextArea();
 
+        JPanel center = new JPanel();
+
         JPanel commandArea = (JPanel) buildCommandArea();
 
         JPanel menuBar = (JPanel) buildMenuBar();
 
+        center.setLayout(new GridBagLayout());
+
+        GridBagConstraints textAreaConstraints = GridBagFillVertical();
+        textAreaConstraints.anchor = GridBagConstraints.CENTER;
+        textAreaConstraints.fill = GridBagConstraints.BOTH;
+
+        GridBagConstraints rightSideConstraints = GridBagFillVertical();
+        rightSideConstraints.anchor = GridBagConstraints.EAST;
+
+        center.add(textArea, textAreaConstraints);
+
+        center.add(rightSide, rightSideConstraints);
+
         master.setLayout(new BorderLayout(10,10));
 
-        master.add(rightSide, BorderLayout.EAST);
-
         master.add(textArea, BorderLayout.CENTER);
+
+        master.add(rightSide, BorderLayout.EAST);
 
         master.add(commandArea, BorderLayout.SOUTH);
 

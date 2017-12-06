@@ -31,7 +31,7 @@ public class MainWindow
         {
             String keyFilePath = IO_Utilities.readTextFile(bootfile.getPath());
 
-            ((JTextField) map.get("keyFilePathField")).setText(keyFilePath);
+            ((JTextField) map.get("keyFilePathField")).setText(keyFilePath.trim());
         }
 
         else
@@ -126,10 +126,11 @@ public class MainWindow
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
 
                 try {
-                    IO_Utilities.writeTextFile(((JTextField) componentMap.get("keyFilePathField")).getText(), ".DontPlayFairBootFile");
+                    IO_Utilities.writeTextFile(((JTextField) componentMap.get("keyFilePathField")).getText().trim(), ".DontPlayFairBootFile");
+                    e.getWindow().dispose();
                 }
 
                 catch (Exception x)
