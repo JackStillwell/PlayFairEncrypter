@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -32,6 +33,11 @@ public class MenuListener implements MouseListener {
             case "selectKeyFileButton" :
             {
                 JFileChooser fileChooser = new JFileChooser(new File("."));
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "DontPlayFairKeyFile", "dpfk");
+
+                fileChooser.setFileFilter(filter);
 
                 int returnval = fileChooser.showOpenDialog(_map.get("master"));
 
@@ -99,12 +105,12 @@ public class MenuListener implements MouseListener {
 
                         ((JTextArea) _map.get("textArea")).setText(input);
 
-                        ((JTextArea) _map.get("commandArea")).append("file loaded successfully\n");
+                        ((JTextArea) _map.get("commandArea")).append("File Loaded Successfully\n");
                     }
 
                     catch(Exception x)
                     {
-                        ((JTextArea) _map.get("commandArea")).append("Error loading file: " + x + "\n");
+                        ((JTextArea) _map.get("commandArea")).append("Error Loading File: " + x + "\n");
                     }
                 }
 
@@ -132,12 +138,12 @@ public class MenuListener implements MouseListener {
 
                         IO_Utilities.writeTextFile(input, filePath);
 
-                        ((JTextArea) _map.get("commandArea")).append("file saved successfully\n");
+                        ((JTextArea) _map.get("commandArea")).append("File Saved Successfully\n");
                     }
 
                     catch(Exception x)
                     {
-                        ((JTextArea) _map.get("commandArea")).append("Error saving file: " + x + "\n");
+                        ((JTextArea) _map.get("commandArea")).append("Error Saving File: " + x + "\n");
                     }
                 }
 

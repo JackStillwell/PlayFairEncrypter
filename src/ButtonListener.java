@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -114,6 +115,11 @@ public class ButtonListener implements ActionListener {
                 case "keyFileChooser" :
                 {
                     JFileChooser fileChooser = new JFileChooser(new File("."));
+
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                            "DontPlayFairKeyFile", "dpfk");
+
+                    fileChooser.setFileFilter(filter);
 
                     int returnval = fileChooser.showOpenDialog(_map.get("master"));
 

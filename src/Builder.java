@@ -49,7 +49,7 @@ public class Builder {
         JTextField keyFilePathField = new JTextField();
         keyFilePathField.setEditable(false);
         keyFilePathField.setName("keyFilePathField");
-        keyFilePathField.setColumns(20);
+        keyFilePathField.setColumns(20); // limits displayed characters
 
         JLabel levelLabel = new JLabel("Level");
 
@@ -189,7 +189,7 @@ public class Builder {
 
         menuBar.add(fileMenu);
 
-        //TODO: readd and implement help and about menus
+        //TODO (future release): implement help and about menus
         //menuBar.add(helpMenu);
         //menuBar.add(aboutMenu);
 
@@ -206,24 +206,9 @@ public class Builder {
 
         JPanel textArea = (JPanel) buildTextArea();
 
-        JPanel center = new JPanel();
-
         JPanel commandArea = (JPanel) buildCommandArea();
 
         JPanel menuBar = (JPanel) buildMenuBar();
-
-        center.setLayout(new GridBagLayout());
-
-        GridBagConstraints textAreaConstraints = GridBagFillVertical();
-        textAreaConstraints.anchor = GridBagConstraints.CENTER;
-        textAreaConstraints.fill = GridBagConstraints.BOTH;
-
-        GridBagConstraints rightSideConstraints = GridBagFillVertical();
-        rightSideConstraints.anchor = GridBagConstraints.EAST;
-
-        center.add(textArea, textAreaConstraints);
-
-        center.add(rightSide, rightSideConstraints);
 
         master.setLayout(new BorderLayout(10,10));
 
